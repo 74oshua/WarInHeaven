@@ -1027,7 +1027,7 @@ PrefabInstance:
     - target: {fileID: 3123639053718310920, guid: 448fc9bb740b57b4e843756b1db9cbf2,
         type: 3}
       propertyPath: m_Name
-      value: IcePlanet
+      value: GasGiant
       objectReference: {fileID: 0}
     - target: {fileID: 3153283834280670526, guid: 448fc9bb740b57b4e843756b1db9cbf2,
         type: 3}
@@ -1131,11 +1131,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 63468d7a1324b1347a96a988ec98825e, type: 2}
+      objectReference: {fileID: 2100000, guid: 29c064df690ce424ebbe907a8aa6641b, type: 2}
     - target: {fileID: 3123639053718310920, guid: 448fc9bb740b57b4e843756b1db9cbf2,
         type: 3}
       propertyPath: m_Name
-      value: GasGiant
+      value: IceMoon
       objectReference: {fileID: 0}
     - target: {fileID: 3153283834280670526, guid: 448fc9bb740b57b4e843756b1db9cbf2,
         type: 3}
