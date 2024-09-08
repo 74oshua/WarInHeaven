@@ -1,0 +1,24 @@
+// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel CSMain
+
+uint _StartIndex;
+uint _NumPositions;
+RWStructuredBuffer<float3> _Positions;
+float3 _VelocityOffset;
+float3 _PositionOffset;
+float _Timestep;
+
+[numthreads(128,1,1)]
+void CSMain (uint3 id : SV_DispatchThreadID)
+{
+    // TODO: insert actual code here!
+
+    // Result[id.xy] = float4(id.x & id.y, (id.x & 15)/15.0, (id.y & 15)/15.0, 0.0);
+
+    if (id.x + _StartIndex >= _NumPositions)
+    {
+        return;
+    }
+
+    _Positions[id.x] -= _PositionOffset + _VelocityOffset * (id.x + _StartIndex) * _Timestep;
+}
