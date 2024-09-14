@@ -61,13 +61,12 @@ public class HUDComponent : MonoBehaviour
             {
                 if (_target_indicators[i].target == primaryTarget)
                 {
-                    _target_indicators[i].color = targeted_color;
+                    _target_indicators[i].ChangeColor(targeted_color);
                 }
                 else
                 {
-                    _target_indicators[i].color = neutral_color;
+                    _target_indicators[i].ChangeColor(neutral_color);
                 }
-                _target_indicators[i].MarkDirtyRepaint();
             }
         }
         _prograde.UpdatePosition();

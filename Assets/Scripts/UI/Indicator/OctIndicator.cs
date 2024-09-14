@@ -14,16 +14,15 @@ public class OctIndicator : Indicator
         painter.lineWidth = _frame_width;
         if (_occluded)
         {
-            Color c = color;
-            Debug.Log("x");
-            c.a = 0.5f;
+            Color c = _color;
+            c.a = 0.25f;
             painter.strokeColor = c;
         }
         else
         {
-            painter.strokeColor = color;
+            painter.strokeColor = _color;
         }
-        painter.strokeColor = color;
+        // painter.strokeColor = color;
         painter.lineJoin = LineJoin.Miter;
         painter.lineCap = LineCap.Round;
 

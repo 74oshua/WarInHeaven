@@ -10,7 +10,7 @@ public class Indicator : VisualElement
     protected float _width = 100;
     protected float _frame_width = 0.7f;
     protected UIDocument _ui;
-    public Color color;
+    protected Color _color;
     protected Vector3 _world_position = Vector3.zero;
     protected Targetable _target;
     protected bool _occluded;
@@ -23,7 +23,7 @@ public class Indicator : VisualElement
     public bool occlude = false;
 
     // layermask for occulsion
-    public int occlusion_mask = ~2;
+    public int occlusion_mask = ~LayerMask.GetMask("Spacecraft", "Ignore Raycast");
 
     public Targetable target
     {
@@ -37,8 +37,7 @@ public class Indicator : VisualElement
         _frame_width = frame_width;
         _ui = ui;
         _target = reference;
-        // _color = color;
-        this.color = color;
+        this._color = color;
 
         generateVisualContent += DrawCanvas;
 
@@ -58,13 +57,13 @@ public class Indicator : VisualElement
         painter.lineWidth = _frame_width;
         if (_occluded)
         {
-            Color c = color;
-            c.a = 0.5f;
+            Color c = _color;
+            c.a = 0.25f;
             painter.strokeColor = Color.black;
         }
         else
         {
-            painter.strokeColor = color;
+            painter.strokeColor = _color;
         }
         painter.lineJoin = LineJoin.Miter;
         painter.lineCap = LineCap.Round;
@@ -99,10 +98,17 @@ public class Indicator : VisualElement
         }
     }
 
-    // sets indicator to highlight a position in world space
-    public virtual void UpdatePosition()
+    public void ChangeColor(Color color)
+    {
+        _color = color;
+        MarkDirtyRepaint();
+    }
+
+    // updates indicator's position relative to it's reference
+    public void UpdatePosition()
     {
         // hide if disabled or behind camera
+        // if (!enabledSelf || Vector3.Dot(GameManager.Instance.main_camera.transform.forward, _world_position - GameManager.Instance.main_camera.transform.position) < 0)
         if (!enabledSelf || Vector3.Dot(GameManager.Instance.main_camera.transform.forward, _world_position - GameManager.Instance.main_camera.transform.position) < 0)
         {
             visible = false;
@@ -110,8 +116,14 @@ public class Indicator : VisualElement
         }
 
         Vector3 difference = _world_position - GameManager.Instance.main_camera.transform.position;
-        bool is_occluded = Physics.Raycast(GameManager.Instance.main_camera.transform.position, difference, difference.magnitude, occlusion_mask);
+        RaycastHit hit;
+        bool is_occluded = Physics.Raycast(GameManager.Instance.main_camera.transform.position, difference, out hit, difference.magnitude, occlusion_mask);
+        if (is_occluded)
+        {
+            is_occluded = hit.collider != _target.GetComponent<Collider>();
+        }
 
+        // Debug.Log(_target.name + ": " + is_occluded);
         // repaint if just occluded
         if (_occluded != is_occluded)
         {
@@ -124,8 +136,6 @@ public class Indicator : VisualElement
             visible = false;
             return;
         }
-
-        // _world_position += OriginShiftController.true_velocity * Time.deltaTime;
 
         if (_target)
         {
