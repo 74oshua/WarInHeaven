@@ -95,7 +95,13 @@ public class Scanner : MonoBehaviour
 
     private void SelectTarget(Targetable target)
     {
+        if (!_visible_targets.Contains(target))
+        {
+            return;
+        }
+        
         _primary_target = target;
+        _primary_target_index = _visible_targets.IndexOf(target);
         if (hud)
         {
             hud.SelectTarget(target);
@@ -105,11 +111,12 @@ public class Scanner : MonoBehaviour
     public void SelectForwardTarget()
     {
         Vector3 facing = GameManager.Instance.main_camera.transform.forward;
-        for (int i = 0; i < _visible_targets.Count; i++)
+        for (int i = _primary_target_index >= 0 ? _primary_target_index : 0; i < _visible_targets.Count + _primary_target_index; i++)
         {
-            if (_primary_target != _visible_targets[i] && Vector3.Dot((_visible_targets[i].transform.position - transform.position).normalized, facing.normalized) > 0.9f)
+            int index = i % _visible_targets.Count;
+            if (_primary_target != _visible_targets[index] && Vector3.Dot((_visible_targets[index].transform.position - transform.position).normalized, facing.normalized) > 0.9f)
             {
-                SelectTarget(_visible_targets[i]);
+                SelectTarget(_visible_targets[index]);
                 break;
             }
         }

@@ -25,7 +25,7 @@ public class PlayerSpacecraftController : SpacecraftController
         input_actions.FindActionMap("flight").FindAction("burn").canceled += OnBurn;
 
         input_actions.FindActionMap("flight").FindAction("cycle_target").started += CycleTarget;
-        input_actions.FindActionMap("flight").FindAction("forward_target").started += ForwardTarget;
+        input_actions.FindActionMap("flight").FindAction("forward_target").performed += ForwardTarget;
 
         // _rotate_action = input_actions.FindActionMap("flight").FindAction("rotate");
     }
