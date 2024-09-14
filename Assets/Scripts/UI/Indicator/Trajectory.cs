@@ -125,7 +125,7 @@ public class Trajectory : MonoBehaviour
         // }
         // else
         // {
-            hud.DrawPath(_path, _target.transform, lerp_speed);
+            hud.DrawPath(_path, _target.GetComponent<Targetable>(), lerp_speed);
         // }
 
         _calculating_path = false;

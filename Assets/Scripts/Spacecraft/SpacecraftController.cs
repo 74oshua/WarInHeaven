@@ -11,6 +11,9 @@ public class SpacecraftController : MonoBehaviour
 
     // multiplier for how much thruster power the craft should use while reorienting, increase if the craft is overshooting it's heading
     public float power_factor = 5;
+
+    // values closer to 1 will result in smoother turns, values closer to 0 will result in faster orientation at the cost of unintuitive flips that may interfere with maneuvers
+    public float inertia = 0.9f;
     
     protected Spacecraft _sc;
     protected Rigidbody _rb;
@@ -26,7 +29,7 @@ public class SpacecraftController : MonoBehaviour
     // heading: target heading in world space
     protected void RotateTo(Vector3 heading)
     {
-        Vector3 target_rotation = Vector3.Cross(_sc.transform.up, heading.normalized);
+        Vector3 target_rotation = Vector3.Cross(_sc.transform.up, Vector3.Lerp(heading.normalized, _sc.transform.up, inertia).normalized);
         float sin_comp = Mathf.Sin(Vector3.Angle(_sc.transform.up, heading.normalized) * Mathf.Deg2Rad / 2);
 
         Vector3 ideal_angular_velocity = sin_comp * tracking_factor * target_rotation.normalized;

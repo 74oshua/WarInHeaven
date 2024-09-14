@@ -142,6 +142,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tracking_factor: 3
   power_factor: 15
+  inertia: 0.95
   input_actions: {fileID: -944628639613478452, guid: 4e7b152cea4f4c649be2e702e713daf3,
     type: 3}
   dampening: 1
@@ -1411,6 +1412,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97687c0f15b44d443870e8e567aa7e91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pov: {fileID: 1851577974}
   neutral_color: {r: 1, g: 1, b: 1, a: 1}
   targeted_color: {r: 1, g: 0, b: 0, a: 1}
   instrument_color: {r: 0.0023678474, g: 0.6037736, b: 0, a: 1}
@@ -1644,6 +1646,18 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 86844664}
   m_SourcePrefab: {fileID: 100100000, guid: 9faba454844b9c7419001caf5805cbd2, type: 3}
+--- !u!114 &1851577974 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3650463554969200562, guid: 9faba454844b9c7419001caf5805cbd2,
+    type: 3}
+  m_PrefabInstance: {fileID: 1851577973}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 86844647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88d68d55342832b48bc4642a9ba7ac9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1937461713
 PrefabInstance:
   m_ObjectHideFlags: 0

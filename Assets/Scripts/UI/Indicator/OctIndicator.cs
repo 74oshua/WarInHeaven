@@ -5,13 +5,24 @@ using UnityEngine.UIElements;
 
 public class OctIndicator : Indicator
 {
-    public OctIndicator(UIDocument ui, Color color, float width = 100, float frame_width = 5) : base(ui, color, width, frame_width) {}
+    public OctIndicator(UIDocument ui, Targetable reference, Color color, float width = 100, float frame_width = 5) : base(ui, reference, color, width, frame_width) {}
 
     protected override void DrawCanvas(MeshGenerationContext context)
     {
         Painter2D painter = context.painter2D;
 
         painter.lineWidth = _frame_width;
+        if (_occluded)
+        {
+            Color c = color;
+            Debug.Log("x");
+            c.a = 0.5f;
+            painter.strokeColor = c;
+        }
+        else
+        {
+            painter.strokeColor = color;
+        }
         painter.strokeColor = color;
         painter.lineJoin = LineJoin.Miter;
         painter.lineCap = LineCap.Round;

@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(Targetable))]
 public class OrbitalBody : MonoBehaviour
 {
     // class containing state vectors for a body

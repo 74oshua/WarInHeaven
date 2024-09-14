@@ -1295,6 +1295,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3010480116476169387, guid: 055cdc9712fdc5b47b6635a8f01d0b84,
         type: 3}
+      propertyPath: max_thrust
+      value: 5000
+      objectReference: {fileID: 0}
+    - target: {fileID: 3010480116476169387, guid: 055cdc9712fdc5b47b6635a8f01d0b84,
+        type: 3}
       propertyPath: spool_time
       value: 0.1
       objectReference: {fileID: 0}

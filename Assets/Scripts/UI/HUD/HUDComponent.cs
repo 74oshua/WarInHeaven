@@ -9,11 +9,13 @@ public class HUDComponent : MonoBehaviour
     private UIDocument _ui;
 
     // tracking indicators for every target in range
-    private List<TrackingIndicator> _target_indicators = new List<TrackingIndicator>();
+    private List<Indicator> _target_indicators = new List<Indicator>();
     private Targetable primaryTarget = null;
 
     private Indicator _prograde;
     private List<Indicator> _path = new List<Indicator>();
+
+    public Targetable pov;
 
     public Color neutral_color = Color.white;
     public Color targeted_color = Color.red;
@@ -37,7 +39,7 @@ public class HUDComponent : MonoBehaviour
         _ui = GetComponent<UIDocument>();
 
         // add prograde indicator
-        _prograde = new Indicator(_ui, instrument_color, instrument_indicator_size, indicator_frame_width);
+        _prograde = new Indicator(_ui, pov, instrument_color, instrument_indicator_size, indicator_frame_width);
 
         SetProgradeVisible(false);
         // _prograde.SetVisible
@@ -48,7 +50,7 @@ public class HUDComponent : MonoBehaviour
     {
         if (_refresh)
         {
-            _prograde.visible = primaryTarget != null;
+            // SetProgradeVisible(primaryTarget != null);
         }
 
         for (int i = 0; i < _target_indicators.Count; i++)
@@ -77,25 +79,23 @@ public class HUDComponent : MonoBehaviour
         _refresh = false;
     }
 
-    public TrackingIndicator AddTarget(Targetable target)
+    public Indicator AddTarget(Targetable target)
     {
-        TrackingIndicator indicator = new TrackingIndicator(_ui, target, neutral_color, satellite_indicator_size, indicator_frame_width);
+        Indicator indicator = new Indicator(_ui, target, neutral_color, satellite_indicator_size, indicator_frame_width);
 
         switch (target.type)
         {
         case TargetType.Planet:
-            indicator = new OctTrackingIndicator(_ui, target, neutral_color, planet_indicator_size, indicator_frame_width);
+            indicator = new OctIndicator(_ui, target, neutral_color, planet_indicator_size, indicator_frame_width);
             break;
         case TargetType.Satellite:
-            indicator = new TrackingIndicator(_ui, target, neutral_color, satellite_indicator_size, indicator_frame_width);
+            indicator = new Indicator(_ui, target, neutral_color, satellite_indicator_size, indicator_frame_width);
             break;
             
         default:
-            indicator = new TrackingIndicator(_ui, target, neutral_color, planet_indicator_size, indicator_frame_width);
+            indicator = new Indicator(_ui, target, neutral_color, planet_indicator_size, indicator_frame_width);
             break;
         }
-
-        // _ui.rootVisualElement.Add(indicator);
 
         _target_indicators.Add(indicator);
 
@@ -104,7 +104,7 @@ public class HUDComponent : MonoBehaviour
 
     public void RemoveTarget(Targetable target)
     {
-        TrackingIndicator indicator = GetTargetIndicator(target);
+        Indicator indicator = GetTargetIndicator(target);
         if (indicator != null)
         {
             if (primaryTarget == indicator.target)
@@ -119,9 +119,9 @@ public class HUDComponent : MonoBehaviour
         }
     }
 
-    public TrackingIndicator GetTargetIndicator(Targetable target)
+    public Indicator GetTargetIndicator(Targetable target)
     {
-        foreach (TrackingIndicator indicator in _target_indicators)
+        foreach (Indicator indicator in _target_indicators)
         {
             if (target == indicator.target)
             {
@@ -152,7 +152,7 @@ public class HUDComponent : MonoBehaviour
         _refresh = true;
     }
 
-    public void DrawPath(List<Vector3> positions, Transform reference = null, float lerp_factor = 1)
+    public void DrawPath(List<Vector3> positions, Targetable reference = null, float lerp_factor = 1)
     {
         // make sure the correct number of indicators are displayed
         if (positions.Count != _path.Count)
@@ -160,7 +160,7 @@ public class HUDComponent : MonoBehaviour
             _path.Clear();
             for (int i = 0; i < positions.Count; i++)
             {
-                _path.Add(new OctIndicator(_ui, Color.Lerp(near_path_indicator_color, far_path_indicator_color, i / (float)positions.Count), Mathf.Max(path_indicator_max_width - i * path_indicator_delta_width, path_indicator_min_width), indicator_frame_width));
+                _path.Add(new OctIndicator(_ui, pov, Color.Lerp(near_path_indicator_color, far_path_indicator_color, i / (float)positions.Count), Mathf.Max(path_indicator_max_width - i * path_indicator_delta_width, path_indicator_min_width), indicator_frame_width));
                 _path[i].occlude = true;
                 _path[i].occlusion_mask = ~LayerMask.GetMask("Spacecraft", "Ignore Raycast");
                 _path[i].SendToBack();
