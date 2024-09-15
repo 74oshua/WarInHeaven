@@ -160,7 +160,7 @@ public class HUDComponent : MonoBehaviour
             for (int i = 0; i < positions.Count; i++)
             {
                 _path.Add(new OctIndicator(_ui, pov, Color.Lerp(near_path_indicator_color, far_path_indicator_color, i / (float)positions.Count), Mathf.Max(path_indicator_max_width - i * path_indicator_delta_width, path_indicator_min_width), indicator_frame_width));
-                _path[i].occlude = true;
+                _path[i].hide_when_occluded = true;
                 _path[i].occlusion_mask = ~LayerMask.GetMask("Spacecraft", "Ignore Raycast");
                 _path[i].SendToBack();
             }

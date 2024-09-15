@@ -20,7 +20,7 @@ public class Indicator : VisualElement
     
     // whether to hide the indicator if an object obstructs the position it tracks
     // if true, indicator will still change appearance if occluded
-    public bool occlude = false;
+    public bool hide_when_occluded = false;
 
     // layermask for occulsion
     public int occlusion_mask = ~LayerMask.GetMask("Spacecraft", "Ignore Raycast");
@@ -118,7 +118,9 @@ public class Indicator : VisualElement
         Vector3 difference = _world_position - GameManager.Instance.main_camera.transform.position;
         RaycastHit hit;
         bool is_occluded = Physics.Raycast(GameManager.Instance.main_camera.transform.position, difference, out hit, difference.magnitude, occlusion_mask);
-        if (is_occluded)
+
+        // prevent indicators inside the planets from being occluded
+        if (!hide_when_occluded && is_occluded)
         {
             is_occluded = hit.collider != _target.GetComponent<Collider>();
         }
@@ -131,7 +133,7 @@ public class Indicator : VisualElement
             MarkDirtyRepaint();
         }
 
-        if (occlude && _occluded)
+        if (hide_when_occluded && _occluded)
         {
             visible = false;
             return;
