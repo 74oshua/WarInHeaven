@@ -273,8 +273,8 @@ MonoBehaviour:
   path_resolution: 1
   path_length: 50
   path_update_interval: 0.02
-  calc_speed: 100
-  lerp_speed: 0.4
+  calc_speed: 1000
+  lerp_speed: 0.7
 --- !u!1001 &190752489
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -824,6 +824,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: OasisMoon
       objectReference: {fileID: 0}
+    - target: {fileID: 3123639053718310920, guid: 448fc9bb740b57b4e843756b1db9cbf2,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3153283834280670526, guid: 448fc9bb740b57b4e843756b1db9cbf2,
         type: 3}
       propertyPath: type
@@ -848,6 +853,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initial_velocity.x
       value: 577.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 4444732578167668854, guid: 448fc9bb740b57b4e843756b1db9cbf2,
+        type: 3}
+      propertyPath: initial_velocity.y
+      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 7981965358692706524, guid: 448fc9bb740b57b4e843756b1db9cbf2,
         type: 3}
@@ -934,6 +944,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1946758095355123356, guid: 7731c6b79a737454d8e477c3c7728d3c,
         type: 3}
+      propertyPath: timescale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1946758095355123356, guid: 7731c6b79a737454d8e477c3c7728d3c,
+        type: 3}
       propertyPath: main_camera
       value: 
       objectReference: {fileID: 394047112}
@@ -942,6 +957,11 @@ PrefabInstance:
       propertyPath: origin_focus
       value: 
       objectReference: {fileID: 86844647}
+    - target: {fileID: 1946758095355123356, guid: 7731c6b79a737454d8e477c3c7728d3c,
+        type: 3}
+      propertyPath: fixedTimestep
+      value: 0.02
+      objectReference: {fileID: 0}
     - target: {fileID: 1946758095355123356, guid: 7731c6b79a737454d8e477c3c7728d3c,
         type: 3}
       propertyPath: max_origin_dist
@@ -1043,7 +1063,7 @@ PrefabInstance:
     - target: {fileID: 4444732578167668854, guid: 448fc9bb740b57b4e843756b1db9cbf2,
         type: 3}
       propertyPath: stepsPerTick
-      value: 1000
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 7981965358692706524, guid: 448fc9bb740b57b4e843756b1db9cbf2,
         type: 3}
@@ -1138,6 +1158,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: IceMoon
       objectReference: {fileID: 0}
+    - target: {fileID: 3123639053718310920, guid: 448fc9bb740b57b4e843756b1db9cbf2,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3153283834280670526, guid: 448fc9bb740b57b4e843756b1db9cbf2,
         type: 3}
       propertyPath: type
@@ -1156,17 +1181,17 @@ PrefabInstance:
     - target: {fileID: 4444732578167668854, guid: 448fc9bb740b57b4e843756b1db9cbf2,
         type: 3}
       propertyPath: stepsPerTick
-      value: 100
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4444732578167668854, guid: 448fc9bb740b57b4e843756b1db9cbf2,
         type: 3}
       propertyPath: initial_velocity.x
-      value: 577.35
+      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 7981965358692706524, guid: 448fc9bb740b57b4e843756b1db9cbf2,
         type: 3}
       propertyPath: m_Mass
-      value: 10000
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 9050917845412434665, guid: 448fc9bb740b57b4e843756b1db9cbf2,
         type: 3}
@@ -1196,7 +1221,7 @@ PrefabInstance:
     - target: {fileID: 9050917845412434665, guid: 448fc9bb740b57b4e843756b1db9cbf2,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 800000
+      value: 1000000
       objectReference: {fileID: 0}
     - target: {fileID: 9050917845412434665, guid: 448fc9bb740b57b4e843756b1db9cbf2,
         type: 3}
@@ -1526,7 +1551,7 @@ PrefabInstance:
     - target: {fileID: 1938384853571393249, guid: 9faba454844b9c7419001caf5805cbd2,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 188993
+      value: 190000
       objectReference: {fileID: 0}
     - target: {fileID: 1938384853571393249, guid: 9faba454844b9c7419001caf5805cbd2,
         type: 3}
@@ -1563,6 +1588,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -90
       objectReference: {fileID: 0}
+    - target: {fileID: 3650463554969200562, guid: 9faba454844b9c7419001caf5805cbd2,
+        type: 3}
+      propertyPath: type
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3761927878081499483, guid: 9faba454844b9c7419001caf5805cbd2,
         type: 3}
       propertyPath: attractor
@@ -1576,7 +1606,7 @@ PrefabInstance:
     - target: {fileID: 3761927878081499483, guid: 9faba454844b9c7419001caf5805cbd2,
         type: 3}
       propertyPath: initial_velocity.x
-      value: 877.35
+      value: 893.57
       objectReference: {fileID: 0}
     - target: {fileID: 3761927878081499483, guid: 9faba454844b9c7419001caf5805cbd2,
         type: 3}
@@ -1675,6 +1705,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: DesertMoon
+      objectReference: {fileID: 0}
+    - target: {fileID: 3123639053718310920, guid: 448fc9bb740b57b4e843756b1db9cbf2,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3153283834280670526, guid: 448fc9bb740b57b4e843756b1db9cbf2,
         type: 3}
@@ -1780,6 +1815,7 @@ PrefabInstance:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 511436804}
   - {fileID: 394047113}
   - {fileID: 541177970}
   - {fileID: 1937461713}
@@ -1787,7 +1823,6 @@ SceneRoots:
   - {fileID: 394394512}
   - {fileID: 190752489}
   - {fileID: 1694899878}
-  - {fileID: 511436804}
   - {fileID: 1851577973}
   - {fileID: 326230866}
   - {fileID: 1829034339}

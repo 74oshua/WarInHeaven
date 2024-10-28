@@ -7,6 +7,10 @@ public class GameManager : MonoBehaviour
     public GameObject origin_focus;
     public float max_origin_dist = 1000f;
 
+    // controls speed of gravity simulation. only for testing, should be 1
+    public int timescale = 1;
+    public float fixedTimestep = 0.02f;
+
     private Rigidbody _origin_rb;
     public Rigidbody origin_rb
     {
@@ -40,6 +44,8 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Physics.simulationMode = SimulationMode.Script;
+
         if (origin_focus)
         {
             _origin_rb = origin_focus.GetComponent<Rigidbody>();
@@ -48,7 +54,11 @@ public class GameManager : MonoBehaviour
 
     void FixedUpdate()
     {
-        OrbitalBody.SimulateGravity();
+        for (int i = 0; i < timescale; i++)
+        {
+            OrbitalBody.SimulateGravity();
+            Physics.Simulate(fixedTimestep);
+        }
 
         if (origin_focus && origin_focus.transform.position.magnitude > max_origin_dist)
         {

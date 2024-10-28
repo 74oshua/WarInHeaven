@@ -100,28 +100,21 @@ public class OrbitalBody : MonoBehaviour
                 // attract the two bodies together according to gravity
                 if (b.attractor)
                 {
-                    Attract(a, b);
+                    a.AttractTo(b);
                 }
             }
         }
     }
 
     // attract a to b
-    static void Attract(OrbitalBody a, OrbitalBody b)
-    {
-        // if (a.on_rails)
-        // {
-        //     return;
-        // }
-
-        // float sqrdistance = (a._rb.position - b._rb.position).sqrMagnitude;
-        // a._rb.AddForce(a._rb.mass * b._rb.mass * BIG_G * (b._rb.position - a._rb.position).normalized / sqrdistance);
-        a.AttractTo(b);
-    }
+    // static void Attract(OrbitalBody a, OrbitalBody b)
+    // {
+    //     a.AttractTo(b);
+    // }
 
     protected virtual void AttractTo(OrbitalBody b)
     {
-        _rb.AddForce(GetAttractAcceleration(state, b.state), ForceMode.Acceleration);
+        _rb.velocity += GetAttractAcceleration(state, b.state) * GameManager.Instance.fixedTimestep;
     }
 
     // called at the end of every gravity tick
@@ -193,6 +186,13 @@ public class OrbitalBody : MonoBehaviour
         return s;
     }
 
+    public virtual BodyState GetStateInFutureStep(int ticks)
+    {
+        BodyState s = new(state);
+        s.position += state.velocity * (ticks * GameManager.Instance.fixedTimestep);
+        return s;
+    }
+
     // predict where an OrbitalBody will be
     public static BodyState PredictState(BodyState body, List<OrbitalBody> attractors, float timestep, int num_steps = 1, float start_epoch = 0)
     {
@@ -255,52 +255,52 @@ public class OrbitalBody : MonoBehaviour
         return b.mass * BIG_G * difference.normalized / difference.sqrMagnitude;
     }
 
-    public static List<Vector3> PredictPositions(BodyState body, List<BodyState> attractors, float timestep, int num_steps = 1)
-    {
-        List<BodyState> attractor_state = new List<BodyState>(attractors);
-        List<Vector3> next_positions = new List<Vector3>();
+    // public static List<Vector3> PredictPositions(BodyState body, List<BodyState> attractors, float timestep, int num_steps = 1)
+    // {
+    //     List<BodyState> attractor_state = new List<BodyState>(attractors);
+    //     List<Vector3> next_positions = new List<Vector3>();
 
-        for (int i = 0; i < num_steps; i++)
-        {
-            // for every attractor
-            for (int j = 0; j < attractor_state.Count; j++)
-            {
-                // continue if not attractor
-                if (!attractor_state[j].attractor)
-                {
-                    continue;
-                }
+    //     for (int i = 0; i < num_steps; i++)
+    //     {
+    //         // for every attractor
+    //         for (int j = 0; j < attractor_state.Count; j++)
+    //         {
+    //             // continue if not attractor
+    //             if (!attractor_state[j].attractor)
+    //             {
+    //                 continue;
+    //             }
                 
-                // simulate force of gravity on body
-                Vector3 difference = attractor_state[j].position - body.position;
-                body.velocity += attractor_state[j].mass * BIG_G * difference.normalized / difference.sqrMagnitude * timestep;
+    //             // simulate force of gravity on body
+    //             Vector3 difference = attractor_state[j].position - body.position;
+    //             body.velocity += attractor_state[j].mass * BIG_G * difference.normalized / difference.sqrMagnitude * timestep;
 
-                // for every attractor
-                for (int k = 0; k < attractor_state.Count; k++)
-                {
-                    // don't attract ourselves!
-                    if (k == j)
-                    {
-                        continue;
-                    }
+    //             // for every attractor
+    //             for (int k = 0; k < attractor_state.Count; k++)
+    //             {
+    //                 // don't attract ourselves!
+    //                 if (k == j)
+    //                 {
+    //                     continue;
+    //                 }
 
-                    // simulate force of gravity on attractor
-                    difference = attractor_state[k].position - attractor_state[j].position;
-                    attractor_state[j].velocity += attractor_state[k].mass * BIG_G * difference.normalized / difference.sqrMagnitude * timestep;
-                }
-            }
+    //                 // simulate force of gravity on attractor
+    //                 difference = attractor_state[k].position - attractor_state[j].position;
+    //                 attractor_state[j].velocity += attractor_state[k].mass * BIG_G * difference.normalized / difference.sqrMagnitude * timestep;
+    //             }
+    //         }
 
-            // update positions of every attractor and body for next timestep
-            body.position += body.velocity * timestep;
-            next_positions.Add(body.position);
+    //         // update positions of every attractor and body for next timestep
+    //         body.position += body.velocity * timestep;
+    //         next_positions.Add(body.position);
 
-            // for every attractor
-            for (int j = 0; j < attractor_state.Count; j++)
-            {
-                attractor_state[j].position += attractor_state[j].velocity;
-            }
-        }
+    //         // for every attractor
+    //         for (int j = 0; j < attractor_state.Count; j++)
+    //         {
+    //             attractor_state[j].position += attractor_state[j].velocity;
+    //         }
+    //     }
 
-        return next_positions;
-    }
+    //     return next_positions;
+    // }
 }

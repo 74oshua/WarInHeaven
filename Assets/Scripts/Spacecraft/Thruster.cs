@@ -42,7 +42,7 @@ public class Thruster : SpacecraftPart
     {
         if (spool_time != 0)
         {
-            _throttle += (_target_throttle - _throttle) / (spool_time / Time.fixedDeltaTime);
+            _throttle += (_target_throttle - _throttle) / (spool_time / GameManager.Instance.fixedTimestep);
         }
         else
         {

@@ -23,7 +23,7 @@ public class ThrustPlume : MonoBehaviour
         // don't apply jitter if our thrust is insignificant
         if (throttle > 0.01f)
         {
-            jitter += Random.Range(-jitter_speed / Time.fixedDeltaTime, jitter_speed / Time.fixedDeltaTime);
+            jitter += Random.Range(-jitter_speed / GameManager.Instance.fixedTimestep, jitter_speed / GameManager.Instance.fixedTimestep);
             jitter = Mathf.Clamp(jitter, 0, max_jitter);
         }
         plumeObject.GetComponent<MeshRenderer>().material.SetFloat("_Throttle", throttle + jitter * throttle);

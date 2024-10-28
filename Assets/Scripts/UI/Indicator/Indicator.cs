@@ -15,7 +15,7 @@ public class Indicator : VisualElement
     protected Targetable _target;
     protected bool _occluded;
 
-    private Vector3 _reference_old_pos;
+    private Vector3 _reference_old_pos = Vector3.zero;
     // private Color _color = Color.white;
     
     // whether to hide the indicator if an object obstructs the position it tracks

@@ -85,8 +85,8 @@ public class Trajectory : MonoBehaviour
         _prev_offset = rolling_offset;
 
         float timestamp = 0;
-        // float exitTime;
-        // float deltaTime;
+        float exitTime;
+        float deltaTime;
 
         OrbitalBody.BodyState future_state = new OrbitalBody.BodyState(curr_state);
         OrbitalBody.BodyState target_future_state = new OrbitalBody.BodyState(target_state);
@@ -107,11 +107,11 @@ public class Trajectory : MonoBehaviour
 
             if (i % calc_speed == 0)
             {
-                // exitTime = Time.time;
-                yield return new WaitForEndOfFrame();
+                exitTime = Time.time;
+                yield return new();
 
-                // deltaTime = Time.time - exitTime;
-                // timestamp -= deltaTime;
+                deltaTime = Time.time - exitTime;
+                timestamp -= deltaTime;
             }
         }
 
