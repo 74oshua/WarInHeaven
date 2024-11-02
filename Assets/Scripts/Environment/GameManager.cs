@@ -65,7 +65,7 @@ public class GameManager : MonoBehaviour
             Vector3 vel_offset = Vector3.zero;
             if (_origin_rb)
             {
-                vel_offset = _origin_rb.velocity;
+                vel_offset = _origin_rb.linearVelocity;
             }
             OriginShiftController.ShiftAll(origin_focus.transform.position, vel_offset);
         }

@@ -89,6 +89,8 @@ public class HUDComponent : MonoBehaviour
             break;
         case TargetType.Satellite:
             indicator = new Indicator(_ui, target, neutral_color, satellite_indicator_size, indicator_frame_width);
+            indicator.hide_when_occluded = false;
+            indicator.occlusion_mask = 0;
             break;
             
         default:

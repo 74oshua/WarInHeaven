@@ -16,8 +16,8 @@ public class CameraController : MonoBehaviour
     public float min_radius = 10;
     public float max_radius = 100;
     public float overview_distance = 100;
-    public float rotation_sensitivity = 1000;
-    public float zoom_sensitivity = 5;
+    public float rotation_sensitivity = 0.5f;
+    public float zoom_sensitivity = 1;
 
     private float _radius = 50;
     private float _distance_modifier = 1;
@@ -43,6 +43,13 @@ public class CameraController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (input_actions == null)
+        {
+            Debug.LogError("CameraController missing input_actions!");
+            Destroy(this);
+            return;
+        }
+
         // save rotation action
         _rotate_action = input_actions.FindActionMap("camera").FindAction("rotate");
         _zoom_action = input_actions.FindActionMap("camera").FindAction("zoom");

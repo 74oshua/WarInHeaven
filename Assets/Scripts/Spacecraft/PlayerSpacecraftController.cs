@@ -21,11 +21,17 @@ public class PlayerSpacecraftController : SpacecraftController
     {
         base.Start();
 
-        input_actions.FindActionMap("flight").FindAction("burn").started += OnBurn;
-        input_actions.FindActionMap("flight").FindAction("burn").canceled += OnBurn;
+        input_actions.FindActionMap("flight").FindAction("burn").started += Burn;
+        input_actions.FindActionMap("flight").FindAction("burn").canceled += Burn;
 
         input_actions.FindActionMap("flight").FindAction("cycle_target").started += CycleTarget;
         input_actions.FindActionMap("flight").FindAction("forward_target").performed += ForwardTarget;
+        
+        input_actions.FindActionMap("flight").FindAction("target_weapon_group_1").performed += TargetWeaponGroup1;
+        input_actions.FindActionMap("flight").FindAction("target_weapon_group_2").performed += TargetWeaponGroup2;
+
+        input_actions.FindActionMap("flight").FindAction("fire_weapon_group_1").performed += FireWeaponGroup1;
+        input_actions.FindActionMap("flight").FindAction("fire_weapon_group_2").performed += FireWeaponGroup2;
 
         // _rotate_action = input_actions.FindActionMap("flight").FindAction("rotate");
     }
@@ -81,7 +87,7 @@ public class PlayerSpacecraftController : SpacecraftController
         input_actions.FindActionMap("flight").Disable();
     }
 
-    void OnBurn(InputAction.CallbackContext context)
+    void Burn(InputAction.CallbackContext context)
     {
         if (context.started)
         {
@@ -111,6 +117,38 @@ public class PlayerSpacecraftController : SpacecraftController
         {
             scanner.SelectForwardTarget();
         }
+    }
+
+    void TargetWeaponGroup1(InputAction.CallbackContext context)
+    {
+        Scanner scanner = GetComponent<Scanner>();
+
+        if (!scanner)
+        {
+            return;
+        }
+        _sc.TargetWeaponByGroup(scanner.GetPrimaryTarget(), 1);
+    }
+
+    void FireWeaponGroup1(InputAction.CallbackContext context)
+    {
+        _sc.FireWeaponByGroup(1);
+    }
+    
+    void TargetWeaponGroup2(InputAction.CallbackContext context)
+    {
+        Scanner scanner = GetComponent<Scanner>();
+
+        if (!scanner)
+        {
+            return;
+        }
+        _sc.TargetWeaponByGroup(scanner.GetPrimaryTarget(), 2);
+    }
+
+    void FireWeaponGroup2(InputAction.CallbackContext context)
+    {
+        _sc.FireWeaponByGroup(2);
     }
 
     // private void OnRotate(InputAction.CallbackContext context)

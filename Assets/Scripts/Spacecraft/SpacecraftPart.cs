@@ -5,6 +5,7 @@ using UnityEngine;
 public class SpacecraftPart : MonoBehaviour
 {
     protected Rigidbody _rb;
+    protected OrbitalBody _ob;
     protected Spacecraft _sc;
 
     // sets which spacecraft this part belongs to
@@ -14,7 +15,9 @@ public class SpacecraftPart : MonoBehaviour
 
         _rb = sc.GetComponent<Rigidbody>();
         _rb.useGravity = false;
-        _rb.drag = 0;
-        _rb.angularDrag = 0;
+        _rb.linearDamping = 0;
+        _rb.angularDamping = 0;
+
+        _ob = sc.GetComponent<OrbitalBody>();
     }
 }

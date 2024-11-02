@@ -5,7 +5,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(Targetable))]
-public class OrbitalBody : MonoBehaviour
+public class OrbitalBody : MonoBehaviour, IShiftable
 {
     // class containing state vectors for a body
     public class BodyState
@@ -19,26 +19,6 @@ public class OrbitalBody : MonoBehaviour
             mass = b.mass;
             attractor = b.attractor;
         }
-
-        // public static bool operator ==(BodyState a, BodyState b)
-        // {
-        //     return a.position == b.position && a.velocity == b.velocity && a.mass == b.mass && a.attractor == b.attractor;
-        // }
-
-        // public static bool operator !=(BodyState a, BodyState b)
-        // {
-        //     return a.position != b.position || a.velocity != b.velocity || a.mass != b.mass || a.attractor == b.attractor;
-        // }
-
-        // public override bool Equals(object obj)
-        // {
-        //     return this == (BodyState)obj;
-        // }
-
-        // public override int GetHashCode()
-        // {
-        //     return base.GetHashCode();
-        // }
 
         public Vector3 position;
         public Vector3 velocity;
@@ -62,11 +42,13 @@ public class OrbitalBody : MonoBehaviour
     {
         get { return new BodyState{
             position = transform.position,
-            velocity = _rb.velocity,
+            velocity = _rb.linearVelocity,
             mass = _rb.mass,
             attractor = attractor
             }; }
     }
+
+    protected BodyState prev_state = new BodyState();
 
     // Rigidbody component
     protected Rigidbody _rb;
@@ -78,7 +60,7 @@ public class OrbitalBody : MonoBehaviour
     // protected List<BodyState> _future_states = new List<BodyState>();
 
     // true position and velocity, before origin shift
-    protected BodyState _true_state = new BodyState();
+    // protected BodyState _true_state = new BodyState();
 
     // gravity simulation tick. call from GameManager FixedUpdate()
     public static void SimulateGravity()
@@ -114,27 +96,14 @@ public class OrbitalBody : MonoBehaviour
 
     protected virtual void AttractTo(OrbitalBody b)
     {
-        _rb.velocity += GetAttractAcceleration(state, b.state) * GameManager.Instance.fixedTimestep;
+        _rb.linearVelocity += GetAttractAcceleration(state, b.state) * GameManager.Instance.fixedTimestep;
     }
 
     // called at the end of every gravity tick
     protected virtual void GravityUpdate()
     {
-        // if (on_rails)
-        // {
-        //     // transform.position = _future_states[1].position - GameManager.Instance.origin_focus.transform.position;
-        //     // rb.position = _future_states[1].position - GameManager.Instance.origin_focus.transform.position;
-        //     _true_state.position = _future_states[1].position;
-        //     _true_state.velocity = _future_states[1].velocity;
-
-        //     Vector3 next_position = _future_states[1].position + OriginShiftController.true_position;
-        //     rb.velocity = (next_position - transform.position) / Time.fixedDeltaTime;
-        //     // rb.velocity = _future_states[1].velocity;
-        //     _future_states.RemoveAt(0);
-        //     // DrawPath(10);
-
-        //     Debug.Log(GameManager.Instance.origin_focus.transform.position + OriginShiftController.true_position);
-        // }
+        Debug.DrawLine(transform.position, transform.position + GetAcceleration());
+        prev_state = state;
     }
 
     // Start is called before the first frame update
@@ -143,14 +112,14 @@ public class OrbitalBody : MonoBehaviour
         _rb = GetComponent<Rigidbody>();
         _rb.useGravity = false;
 
-        _rb.velocity = initial_velocity;
-        _rb.drag = 0;
-        _rb.angularDrag = 0;
+        _rb.linearVelocity = initial_velocity;
+        _rb.linearDamping = 0;
+        _rb.angularDamping = 0;
 
-        _true_state.position = transform.position;
-        _true_state.velocity = _rb.velocity;
-        _true_state.attractor = attractor;
-        _true_state.mass = _rb.mass;
+        // _true_state.position = transform.position;
+        // _true_state.velocity = _rb.linearVelocity;
+        // _true_state.attractor = attractor;
+        // _true_state.mass = _rb.mass;
 
         // if (on_rails)
         // {
@@ -254,53 +223,20 @@ public class OrbitalBody : MonoBehaviour
         Vector3 difference = b.position - a.position;
         return b.mass * BIG_G * difference.normalized / difference.sqrMagnitude;
     }
+    
+    virtual public Vector3 GetAcceleration()
+    {
+        Vector3 accel = (state.velocity - prev_state.velocity) / GameManager.Instance.fixedTimestep;
+        return accel;
+    }
 
-    // public static List<Vector3> PredictPositions(BodyState body, List<BodyState> attractors, float timestep, int num_steps = 1)
-    // {
-    //     List<BodyState> attractor_state = new List<BodyState>(attractors);
-    //     List<Vector3> next_positions = new List<Vector3>();
+    public virtual void Shift(Vector3 pos_offset, Vector3 vel_offset)
+    {
+        transform.position -= pos_offset;
+        _rb.linearVelocity -= vel_offset;
+        _rb.position -= pos_offset;
 
-    //     for (int i = 0; i < num_steps; i++)
-    //     {
-    //         // for every attractor
-    //         for (int j = 0; j < attractor_state.Count; j++)
-    //         {
-    //             // continue if not attractor
-    //             if (!attractor_state[j].attractor)
-    //             {
-    //                 continue;
-    //             }
-                
-    //             // simulate force of gravity on body
-    //             Vector3 difference = attractor_state[j].position - body.position;
-    //             body.velocity += attractor_state[j].mass * BIG_G * difference.normalized / difference.sqrMagnitude * timestep;
-
-    //             // for every attractor
-    //             for (int k = 0; k < attractor_state.Count; k++)
-    //             {
-    //                 // don't attract ourselves!
-    //                 if (k == j)
-    //                 {
-    //                     continue;
-    //                 }
-
-    //                 // simulate force of gravity on attractor
-    //                 difference = attractor_state[k].position - attractor_state[j].position;
-    //                 attractor_state[j].velocity += attractor_state[k].mass * BIG_G * difference.normalized / difference.sqrMagnitude * timestep;
-    //             }
-    //         }
-
-    //         // update positions of every attractor and body for next timestep
-    //         body.position += body.velocity * timestep;
-    //         next_positions.Add(body.position);
-
-    //         // for every attractor
-    //         for (int j = 0; j < attractor_state.Count; j++)
-    //         {
-    //             attractor_state[j].position += attractor_state[j].velocity;
-    //         }
-    //     }
-
-    //     return next_positions;
-    // }
+        prev_state.velocity -= vel_offset;
+        prev_state.position -= pos_offset;
+    }
 }

@@ -13,7 +13,7 @@ OcclusionCullingSettings:
 --- !u!104 &2
 RenderSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 9
+  serializedVersion: 10
   m_Fog: 0
   m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   m_FogMode: 3
@@ -42,8 +42,8 @@ RenderSettings:
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 12
-  m_GIWorkflowMode: 1
+  serializedVersion: 13
+  m_BakeOnSceneLoad: 0
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -66,9 +66,6 @@ LightmapSettings:
     m_LightmapParameters: {fileID: 0}
     m_LightmapsBakeMode: 1
     m_TextureCompression: 1
-    m_FinalGather: 0
-    m_FinalGatherFiltering: 1
-    m_FinalGatherRayCount: 256
     m_ReflectionCompression: 2
     m_MixedBakeMode: 2
     m_BakeBackend: 1
@@ -96,7 +93,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 20201, guid: 0000000000000000f000000000000000, type: 0}
   m_LightingSettings: {fileID: 0}
 --- !u!196 &4
 NavMeshSettings:
@@ -171,6 +168,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -285,7 +283,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 98806454537065123, guid: 886b228575668664b94caeb8450d44b1,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: b8fade4d364b270459903f1fac12768a, type: 2}
     - target: {fileID: 3123639053718310920, guid: 886b228575668664b94caeb8450d44b1,
@@ -414,9 +412,8 @@ Light:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 326230864}
   m_Enabled: 1
-  serializedVersion: 10
+  serializedVersion: 11
   m_Type: 1
-  m_Shape: 0
   m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
   m_Intensity: 1
   m_Range: 10
@@ -466,8 +463,12 @@ Light:
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
+  m_ForceVisible: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+  m_LightUnit: 1
+  m_LuxAtDistance: 1
+  m_EnableSpotReflector: 1
 --- !u!4 &326230866
 Transform:
   m_ObjectHideFlags: 0
@@ -816,7 +817,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 98806454537065123, guid: 448fc9bb740b57b4e843756b1db9cbf2,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 75e0bbcf87414f9479f291fa36ee1731, type: 2}
     - target: {fileID: 3123639053718310920, guid: 448fc9bb740b57b4e843756b1db9cbf2,
@@ -1150,7 +1151,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 98806454537065123, guid: 448fc9bb740b57b4e843756b1db9cbf2,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 29c064df690ce424ebbe907a8aa6641b, type: 2}
     - target: {fileID: 3123639053718310920, guid: 448fc9bb740b57b4e843756b1db9cbf2,
@@ -1273,7 +1274,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 98806454537065123, guid: 886b228575668664b94caeb8450d44b1,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: b8fade4d364b270459903f1fac12768a, type: 2}
     - target: {fileID: 3123639053718310920, guid: 886b228575668664b94caeb8450d44b1,
@@ -1410,6 +1411,9 @@ MonoBehaviour:
   m_ParentUI: {fileID: 0}
   sourceAsset: {fileID: 0}
   m_SortingOrder: 0
+  m_WorldSpaceSizeMode: 1
+  m_WorldSpaceWidth: 1920
+  m_WorldSpaceHeight: 1080
 --- !u!4 &1829034339
 Transform:
   m_ObjectHideFlags: 0
@@ -1698,7 +1702,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 98806454537065123, guid: 448fc9bb740b57b4e843756b1db9cbf2,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: f7a817d2b69367f4bad2c173cb780d04, type: 2}
     - target: {fileID: 3123639053718310920, guid: 448fc9bb740b57b4e843756b1db9cbf2,

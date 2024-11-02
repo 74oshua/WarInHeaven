@@ -26,7 +26,7 @@ public class Targetable : MonoBehaviour
 
     public Vector3 velocity
     {
-        get { return _ob.rb.velocity; }
+        get { return _ob.rb.linearVelocity; }
     }
 
     void Start()

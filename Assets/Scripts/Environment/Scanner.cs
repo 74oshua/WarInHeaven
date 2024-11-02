@@ -111,7 +111,7 @@ public class Scanner : MonoBehaviour
     public void SelectForwardTarget()
     {
         Vector3 facing = GameManager.Instance.main_camera.transform.forward;
-        for (int i = _primary_target_index >= 0 ? _primary_target_index : 0; i < _visible_targets.Count + _primary_target_index; i++)
+        for (int i = _primary_target_index >= 0 ? _primary_target_index : 0; i < _visible_targets.Count + _primary_target_index + 1; i++)
         {
             int index = i % _visible_targets.Count;
             if (_primary_target != _visible_targets[index] && Vector3.Dot((_visible_targets[index].transform.position - transform.position).normalized, facing.normalized) > 0.9f)

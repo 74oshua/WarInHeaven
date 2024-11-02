@@ -58,6 +58,42 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "fire_weapon_group_1",
+                    "type": "Button",
+                    "id": "eae0122c-b82f-41d9-bb28-543f693a6337",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "target_weapon_group_1",
+                    "type": "Button",
+                    "id": "4ffd9e40-a8ae-4ce8-b0cb-7e2066e7e23f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "fire_weapon_group_2",
+                    "type": "Button",
+                    "id": "25e41e0f-1bf2-4c68-b07a-98572b8cf65b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "target_weapon_group_2",
+                    "type": "Button",
+                    "id": "8c54be19-6782-401a-be95-0057061396e8",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -311,6 +347,50 @@
                     "processors": "",
                     "groups": "",
                     "action": "forward_target",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b0460335-1dd8-468e-a6f0-db66bbdaf558",
+                    "path": "<Keyboard>/f1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "target_weapon_group_1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f7fbb1bf-c642-4e6b-b099-2b691e2de4f2",
+                    "path": "<Keyboard>/f2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "target_weapon_group_2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7b0f222e-5d42-428a-b275-d850277f07af",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "fire_weapon_group_1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "10901d13-001e-4557-bad8-5d2d8e49d9ac",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "fire_weapon_group_2",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

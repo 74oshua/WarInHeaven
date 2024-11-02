@@ -31,7 +31,7 @@ public class OnRailsBody : OrbitalBody
         {
             return future_states[0].velocity;
         }
-        return _rb.velocity;
+        return _rb.linearVelocity;
     }
 
     override public BodyState state
@@ -59,6 +59,9 @@ public class OnRailsBody : OrbitalBody
 
     protected override void GravityUpdate()
     {
+        Debug.DrawLine(transform.position, transform.position + GetAcceleration());
+        prev_state = state;
+
         if (future_states.Count < 2)
         {
             CalcFuturePositions(stepsPerTick);
@@ -76,7 +79,7 @@ public class OnRailsBody : OrbitalBody
         // }
 
         Vector3 next_position = future_states[1].position;
-        rb.velocity = (next_position - transform.position) / (GameManager.Instance.fixedTimestep * (stepsPerTick - _stepNum));
+        rb.linearVelocity = (next_position - transform.position) / (GameManager.Instance.fixedTimestep * (stepsPerTick - _stepNum));
         _stepNum++;
 
         DrawPath(10);
@@ -161,12 +164,9 @@ public class OnRailsBody : OrbitalBody
         }
     }
 
-    public void Shift(Vector3 pos_offset, Vector3 vel_offset)
+    public override void Shift(Vector3 pos_offset, Vector3 vel_offset)
     {
-
-        transform.position -= pos_offset;
-        _rb.position -= pos_offset;
-        _rb.velocity -= vel_offset;
+        base.Shift(pos_offset, vel_offset);
         
         for (int i = 0; i < future_states.Count; i++)
         {

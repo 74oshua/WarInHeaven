@@ -185,6 +185,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3650463554969200562, guid: 9faba454844b9c7419001caf5805cbd2,
+        type: 3}
+      propertyPath: type
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6167573699138342302, guid: 9faba454844b9c7419001caf5805cbd2,
         type: 3}
       propertyPath: m_Name
@@ -219,10 +224,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tracking_factor: 2
   power_factor: 5
+  inertia: 0.9
   input_actions: {fileID: -944628639613478452, guid: 4e7b152cea4f4c649be2e702e713daf3,
     type: 3}
   dampening: 1
   roll_factor: 20
+--- !u!114 &554216874 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3650463554969200562, guid: 9faba454844b9c7419001caf5805cbd2,
+    type: 3}
+  m_PrefabInstance: {fileID: 554216871}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 554216872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88d68d55342832b48bc4642a9ba7ac9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &989176546
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -362,6 +380,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   origin_focus: {fileID: 554216872}
   max_origin_dist: 1000
+  timescale: 1
+  fixedTimestep: 0.02
   main_camera: {fileID: 1907023552}
 --- !u!4 &1325596282
 Transform:
@@ -439,6 +459,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97687c0f15b44d443870e8e567aa7e91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pov: {fileID: 554216874}
   neutral_color: {r: 1, g: 1, b: 1, a: 1}
   targeted_color: {r: 1, g: 0, b: 0, a: 1}
   instrument_color: {r: 0, g: 1, b: 0, a: 1}
@@ -446,7 +467,8 @@ MonoBehaviour:
   planet_indicator_size: 10
   instrument_indicator_size: 5
   indicator_frame_width: 1
-  path_indicator_color: {r: 1, g: 0, b: 1, a: 1}
+  near_path_indicator_color: {r: 1, g: 0, b: 1, a: 1}
+  far_path_indicator_color: {r: 0, g: 0, b: 1, a: 1}
   path_indicator_max_width: 10
   path_indicator_min_width: 5
   path_indicator_delta_width: 0.5
@@ -724,6 +746,7 @@ MonoBehaviour:
     type: 3}
   min_radius: 10
   max_radius: 100
+  overview_distance: 100
   rotation_sensitivity: 0.1
   zoom_sensitivity: 0.1
 --- !u!1660057539 &9223372036854775807

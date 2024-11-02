@@ -7,6 +7,7 @@ public class Spacecraft : MonoBehaviour
 {
     public List<Thruster> main_thrusters = new();
     public List<Thruster> maneuver_thrusters = new();
+    public List<Weapon> weapons = new();
 
     private Rigidbody _rb;
 
@@ -25,6 +26,10 @@ public class Spacecraft : MonoBehaviour
         foreach (Thruster t in maneuver_thrusters)
         {
             t.SetSpacecraft(this);
+        }
+        foreach (Weapon w in weapons)
+        {
+            w.SetSpacecraft(this);
         }
     }
 
@@ -72,6 +77,28 @@ public class Spacecraft : MonoBehaviour
         foreach (Thruster t in maneuver_thrusters)
         {
             t.Rotate(transform.rotation * local_axis);
+        }
+    }
+
+    public void TargetWeaponByGroup(Targetable target, int fire_group)
+    {
+        foreach (Weapon weapon in weapons)
+        {
+            if (weapon.fire_group == fire_group)
+            {
+                weapon.SetTarget(target);
+            }
+        }
+    }
+
+    public void FireWeaponByGroup(int fire_group)
+    {
+        foreach (Weapon weapon in weapons)
+        {
+            if (weapon.fire_group == fire_group)
+            {
+                weapon.Fire();
+            }
         }
     }
 }
