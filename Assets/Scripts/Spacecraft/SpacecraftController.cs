@@ -23,7 +23,12 @@ public class SpacecraftController : MonoBehaviour
     {
         _sc = GetComponent<Spacecraft>();
         _rb = GetComponent<Rigidbody>();
+
+        Init();
     }
+
+    protected virtual void Init()
+    {}
 
     // rotate ship towards heading, aiming to stop the rotation when we're aligned
     // heading: target heading in world space
