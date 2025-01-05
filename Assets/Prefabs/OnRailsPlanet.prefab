@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 3153283834280670526}
   - component: {fileID: 4444732578167668854}
   - component: {fileID: 6336104088735359796}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: OnRailsPlanet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -63,9 +63,6 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -152,7 +149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   passive_range: 100000000
-  type: 1
+  type: 4
 --- !u!114 &4444732578167668854
 MonoBehaviour:
   m_ObjectHideFlags: 0

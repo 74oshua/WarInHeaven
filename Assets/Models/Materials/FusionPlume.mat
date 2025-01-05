@@ -110,7 +110,7 @@ Material:
     - _RadialMultiplier: 166.6
     - _RadialOffset: 0.1
     - _Radius: 0.22
-    - _RayLength: 42.2
+    - _RayLength: 77.34
     - _ReceiveShadows: 1
     - _Resolution: 1000
     - _Smoothness: 0.5

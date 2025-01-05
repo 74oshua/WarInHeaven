@@ -10,7 +10,7 @@ public class HUDComponent : MonoBehaviour
 
     // tracking indicators for every target in range
     private List<Indicator> _target_indicators = new List<Indicator>();
-    private Targetable primaryTarget = null;
+    // private Targetable primaryTarget = null;
 
     private Indicator _prograde;
     private List<Indicator> _path = new List<Indicator>();
@@ -32,14 +32,21 @@ public class HUDComponent : MonoBehaviour
     public float path_indicator_min_width = 2;
     public float path_indicator_delta_width = 15;
 
-    private bool _refresh = false;
+    public OverviewIcon spacecraft_icon;
+    public float spacecraft_icon_width = 10;
+
+    // private bool _refresh = false;
+
+    void Awake()
+    {
+        _ui = GetComponent<UIDocument>();
+    }
 
     void Start()
     {
-        _ui = GetComponent<UIDocument>();
 
         // add prograde indicator
-        _prograde = new Indicator(_ui, pov, instrument_color, instrument_indicator_size, indicator_frame_width);
+        _prograde = new SquareIndicator(_ui, pov, instrument_color, instrument_indicator_size, indicator_frame_width);
 
         SetProgradeVisible(false);
         // _prograde.SetVisible
@@ -48,71 +55,119 @@ public class HUDComponent : MonoBehaviour
 
     void LateUpdate()
     {
-        if (_refresh)
-        {
+        // if (_refresh)
+        // {
             // SetProgradeVisible(primaryTarget != null);
-        }
+        // }
 
+        // for (int i = 0; i < _target_indicators.Count; i++)
+        // {
+        //     _target_indicators[i].UpdatePosition();
+
+        //     if (_refresh)
+        //     {
+        //         if (_target_indicators[i].target == primaryTarget)
+        //         {
+        //             _target_indicators[i].ChangeColor(targeted_color);
+        //         }
+        //         else
+        //         {
+        //             _target_indicators[i].ChangeColor(neutral_color);
+        //         }
+        //     }
+        // }
+        // _prograde.UpdatePosition();
+        // foreach (Indicator indicator in _path)
+        // {
+        //     indicator.UpdatePosition();
+        // }
         for (int i = 0; i < _target_indicators.Count; i++)
         {
-            _target_indicators[i].UpdatePosition();
-
-            if (_refresh)
+            if (_target_indicators[i].target == null)
             {
-                if (_target_indicators[i].target == primaryTarget)
-                {
-                    _target_indicators[i].ChangeColor(targeted_color);
-                }
-                else
-                {
-                    _target_indicators[i].ChangeColor(neutral_color);
-                }
+                RemoveTarget(_target_indicators[i].target);
             }
         }
-        _prograde.UpdatePosition();
-        foreach (Indicator indicator in _path)
+        foreach (Indicator indicator in _ui.rootVisualElement.Children())
         {
             indicator.UpdatePosition();
         }
 
-        _refresh = false;
+        // _refresh = false;
     }
 
     public Indicator AddTarget(Targetable target)
     {
-        Indicator indicator = new Indicator(_ui, target, neutral_color, satellite_indicator_size, indicator_frame_width);
+        // Indicator indicator = new Indicator(_ui, target, neutral_color, satellite_indicator_size, indicator_frame_width);
+        Indicator indicator = null;
 
         switch (target.type)
         {
         case TargetType.Planet:
             indicator = new OctIndicator(_ui, target, neutral_color, planet_indicator_size, indicator_frame_width);
+            _target_indicators.Add(indicator);
             break;
         case TargetType.Satellite:
-            indicator = new Indicator(_ui, target, neutral_color, satellite_indicator_size, indicator_frame_width);
-            indicator.hide_when_occluded = false;
-            indicator.occlusion_mask = 0;
+            indicator = new SquareIndicator(_ui, target, neutral_color, satellite_indicator_size, indicator_frame_width)
+            {
+                hide_when_occluded = false,
+                occlusion_mask = 0
+            };
+            _target_indicators.Add(indicator);
+            break;
+        case TargetType.Projectile:
+            indicator = new DiamondIndicator(_ui, target, neutral_color, satellite_indicator_size, indicator_frame_width)
+            {
+                hide_when_occluded = false,
+                occlusion_mask = 0
+            };
+            _target_indicators.Add(indicator);
+            break;
+        case TargetType.Spacecraft:
+            if (spacecraft_icon)
+            {
+                indicator = new MeshIndicator(_ui, spacecraft_icon, target, neutral_color, false, spacecraft_icon_width, indicator_frame_width);
+                _target_indicators.Add(indicator);
+
+                // if (target != pov)
+                // {
+                //     indicator = new SquareIndicator(_ui, target, neutral_color, satellite_indicator_size, indicator_frame_width)
+                //     {
+                //         realview_only = true,
+                //         hide_when_occluded = false,
+                //         occlusion_mask = 0
+                //     };
+                //     _target_indicators.Add(indicator);
+                // }
+            }
+            else if (target != pov)
+            {
+                indicator = new SquareIndicator(_ui, target, neutral_color, satellite_indicator_size, indicator_frame_width);
+                indicator.hide_when_occluded = false;
+                indicator.occlusion_mask = 0;
+                _target_indicators.Add(indicator);
+            }
             break;
             
         default:
-            indicator = new Indicator(_ui, target, neutral_color, planet_indicator_size, indicator_frame_width);
+            indicator = new SquareIndicator(_ui, target, neutral_color, planet_indicator_size, indicator_frame_width);
+            _target_indicators.Add(indicator);
             break;
         }
-
-        _target_indicators.Add(indicator);
 
         return indicator;
     }
 
     public void RemoveTarget(Targetable target)
     {
-        Indicator indicator = GetTargetIndicator(target);
-        if (indicator != null)
+        List<Indicator> indicators = GetTargetIndicators(target);
+        foreach (Indicator indicator in indicators)
         {
-            if (primaryTarget == indicator.target)
-            {
-                primaryTarget = null;
-                _refresh = true;
-            }
+            // if (primaryTarget == indicator.target)
+            // {
+            //     primaryTarget = null;
+            //     _refresh = true;
+            // }
 
             indicator.SetEnabled(false);
             indicator.RemoveFromHierarchy();
@@ -120,16 +175,17 @@ public class HUDComponent : MonoBehaviour
         }
     }
 
-    public Indicator GetTargetIndicator(Targetable target)
+    public List<Indicator> GetTargetIndicators(Targetable target)
     {
+        List<Indicator> indicators = new();
         foreach (Indicator indicator in _target_indicators)
         {
             if (target == indicator.target)
             {
-                return indicator;
+                indicators.Add(indicator);
             }
         }
-        return null;
+        return indicators;
     }
 
     public void SetProgradeIndicator(Vector3 pov, Vector3 direction)
@@ -147,13 +203,23 @@ public class HUDComponent : MonoBehaviour
         _prograde.SetEnabled(visible);
     }
 
-    public void SelectTarget(Targetable target)
+    public void SetTargetColor(Targetable target)
     {
-        primaryTarget = target;
-        _refresh = true;
+        foreach (Indicator indicator in GetTargetIndicators(target))
+        {
+            indicator.ChangeColor(targeted_color);
+        }
     }
 
-    public void DrawPath(List<Vector3> positions, Targetable reference = null, float lerp_factor = 1)
+    public void SetNeutralColor(Targetable target)
+    {
+        foreach (Indicator indicator in GetTargetIndicators(target))
+        {
+            indicator.ChangeColor(neutral_color);
+        }
+    }
+
+    public void DrawPath(List<Vector3> positions, Targetable reference, float lerp_factor = 1)
     {
         // make sure the correct number of indicators are displayed
         if (positions.Count != _path.Count)
@@ -161,9 +227,9 @@ public class HUDComponent : MonoBehaviour
             _path.Clear();
             for (int i = 0; i < positions.Count; i++)
             {
-                _path.Add(new OctIndicator(_ui, pov, Color.Lerp(near_path_indicator_color, far_path_indicator_color, i / (float)positions.Count), Mathf.Max(path_indicator_max_width - i * path_indicator_delta_width, path_indicator_min_width), indicator_frame_width));
+                _path.Add(new OctIndicator(_ui, reference, Color.Lerp(near_path_indicator_color, far_path_indicator_color, i / (float)positions.Count), Mathf.Max(path_indicator_max_width - i * path_indicator_delta_width, path_indicator_min_width), indicator_frame_width));
                 _path[i].hide_when_occluded = true;
-                _path[i].occlusion_mask = ~LayerMask.GetMask("Spacecraft", "Ignore Raycast");
+                _path[i].occlusion_mask = LayerMask.GetMask("CelestialBody");
                 _path[i].SendToBack();
             }
         }
@@ -180,5 +246,17 @@ public class HUDComponent : MonoBehaviour
         {
             indicator.SetEnabled(visible);
         }
+    }
+
+    public VectorIndicator AddVectorIndicator(Targetable reference, ArrowIcon arrow, Color color, float width = 1)
+    {
+        VectorIndicator indicator = new VectorIndicator(_ui, arrow, reference, color, width);
+        return indicator;
+    }
+
+    public void RemoveIndicator(Indicator indicator)
+    {
+        indicator.SetEnabled(false);
+        indicator.RemoveFromHierarchy();
     }
 }

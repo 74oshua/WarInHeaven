@@ -88,6 +88,8 @@ Shader "Unlit/Plume"
                 //     inside = true;
                 // }
 
+                float r = 0;
+
                 for (int i = 0; i < _Resolution; i++)
                 {
                     // float3 local = mul(unity_WorldToObject, position) + mul(unity_WorldToObject, float4(0, 0, 0, 1));

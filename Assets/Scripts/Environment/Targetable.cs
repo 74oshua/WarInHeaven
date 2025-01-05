@@ -4,9 +4,11 @@ using UnityEngine;
 
 public enum TargetType
 {
-    None =          0b00,
-    Satellite =     0b01,
-    Planet =        0b10
+    None =          0b000,
+    Satellite =     1 << 1,
+    Planet =        1 << 2,
+    Projectile =    1 << 3,
+    Spacecraft =    1 << 4
 }
 
 [RequireComponent(typeof(OrbitalBody))]
@@ -21,12 +23,27 @@ public class Targetable : MonoBehaviour
     {
         get { return _ob; }
     }
-    // private static List<Scanner> _scanners = new List<Scanner>();
     private SphereCollider _trigger;
 
     public Vector3 velocity
     {
-        get { return _ob.rb.linearVelocity; }
+        get { return _ob.rb.velocity; }
+    }
+
+    // scanners which currently detect this object
+    private List<Scanner> _detected_scanners = new();
+
+    void OnDestroy()
+    {
+        // in case of destruction, remove this target from all scanners
+        foreach (Scanner s in _detected_scanners)
+        {
+            if (!s)
+            {
+                continue;
+            }
+            s.RemoveTarget(this, true);
+        }
     }
 
     void Start()
@@ -48,15 +65,21 @@ public class Targetable : MonoBehaviour
         if (scanner)
         {
             scanner.AddTarget(this);
+            _detected_scanners.Add(scanner);
         }
     }
 
     void OnTriggerExit(Collider collider)
     {
         Scanner scanner = collider.GetComponent<Scanner>();
+        float distance = Vector3.Distance(transform.position, collider.transform.position);
         if (scanner)
         {
-            scanner.RemoveTarget(this);
+            if (distance > scanner.scan_range && distance > passive_range)
+            {
+                scanner.RemoveTarget(this);
+                _detected_scanners.Remove(scanner);
+            }
         }
     }
 }

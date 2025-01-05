@@ -42,13 +42,14 @@ public class OrbitalBody : MonoBehaviour, IShiftable
     {
         get { return new BodyState{
             position = transform.position,
-            velocity = _rb.linearVelocity,
+            velocity = _rb.velocity,
             mass = _rb.mass,
             attractor = attractor
             }; }
     }
 
     protected BodyState prev_state = new BodyState();
+    protected Vector3 prev_accel = Vector3.zero;
 
     // Rigidbody component
     protected Rigidbody _rb;
@@ -65,9 +66,6 @@ public class OrbitalBody : MonoBehaviour, IShiftable
     // gravity simulation tick. call from GameManager FixedUpdate()
     public static void SimulateGravity()
     {
-        // calculate positions for on_rails bodies
-        // CalcFuturePositions(1, Time.fixedDeltaTime);
-
         foreach (OrbitalBody body in _orbitalBodies)
         {
             body.GravityUpdate();
@@ -96,14 +94,15 @@ public class OrbitalBody : MonoBehaviour, IShiftable
 
     protected virtual void AttractTo(OrbitalBody b)
     {
-        _rb.linearVelocity += GetAttractAcceleration(state, b.state) * GameManager.Instance.fixedTimestep;
+        _rb.velocity += GetAttractAcceleration(state, b.state) * GameManager.Instance.fixedTimestep;
     }
 
     // called at the end of every gravity tick
     protected virtual void GravityUpdate()
     {
         Debug.DrawLine(transform.position, transform.position + GetAcceleration());
-        prev_state = state;
+        prev_accel = GetAcceleration();
+        prev_state = new(state);
     }
 
     // Start is called before the first frame update
@@ -112,9 +111,9 @@ public class OrbitalBody : MonoBehaviour, IShiftable
         _rb = GetComponent<Rigidbody>();
         _rb.useGravity = false;
 
-        _rb.linearVelocity = initial_velocity;
-        _rb.linearDamping = 0;
-        _rb.angularDamping = 0;
+        _rb.velocity = initial_velocity;
+        _rb.drag = 0;
+        _rb.angularDrag = 0;
 
         // _true_state.position = transform.position;
         // _true_state.velocity = _rb.linearVelocity;
@@ -151,14 +150,19 @@ public class OrbitalBody : MonoBehaviour, IShiftable
     public virtual BodyState GetStateInFuture(float seconds)
     {
         BodyState s = new(state);
-        s.position += state.velocity * seconds;
+        s.position += state.velocity * seconds + Mathf.Pow(seconds, 2) * 0.5f * GetAcceleration();
+        s.velocity += GetAcceleration() * seconds;
+        Debug.DrawLine(state.position, s.position);
+        Debug.Log(seconds);
         return s;
     }
 
     public virtual BodyState GetStateInFutureStep(int ticks)
     {
         BodyState s = new(state);
-        s.position += state.velocity * (ticks * GameManager.Instance.fixedTimestep);
+        float seconds = ticks * GameManager.Instance.fixedTimestep;
+        s.position += state.velocity * seconds + Mathf.Pow(seconds, 2) * 0.5f * GetAcceleration();
+        s.velocity += GetAcceleration() * seconds;
         return s;
     }
 
@@ -166,7 +170,7 @@ public class OrbitalBody : MonoBehaviour, IShiftable
     public static BodyState PredictState(BodyState body, List<OrbitalBody> attractors, float timestep, int num_steps = 1, float start_epoch = 0)
     {
         // List<BodyState> attractor_state = new List<BodyState>(attractors);
-        BodyState s = new BodyState(body);
+        BodyState s = new(body);
 
         for (int i = 0; i < num_steps; i++)
         {
@@ -183,7 +187,7 @@ public class OrbitalBody : MonoBehaviour, IShiftable
                 // Vector3 difference = attractor_state[j].position - body.position;
                 // body.velocity += attractor_state[j].mass * BIG_G * difference.normalized / difference.sqrMagnitude * timestep;
 
-                // simulate force of gravity on body
+                // get attractor's future state
                 BodyState a = attractors[j].GetStateInFuture(i * timestep + start_epoch);
                 Vector3 difference = a.position - s.position;
                 // Debug.Log(i * timestep);
@@ -230,10 +234,16 @@ public class OrbitalBody : MonoBehaviour, IShiftable
         return accel;
     }
 
+    virtual public Vector3 GetJerk()
+    {
+        Vector3 jerk = (GetAcceleration() - prev_accel) / GameManager.Instance.fixedTimestep;
+        return jerk;
+    }
+
     public virtual void Shift(Vector3 pos_offset, Vector3 vel_offset)
     {
         transform.position -= pos_offset;
-        _rb.linearVelocity -= vel_offset;
+        _rb.velocity -= vel_offset;
         _rb.position -= pos_offset;
 
         prev_state.velocity -= vel_offset;

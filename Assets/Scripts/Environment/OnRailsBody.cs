@@ -31,7 +31,7 @@ public class OnRailsBody : OrbitalBody
         {
             return future_states[0].velocity;
         }
-        return _rb.linearVelocity;
+        return _rb.velocity;
     }
 
     override public BodyState state
@@ -79,7 +79,7 @@ public class OnRailsBody : OrbitalBody
         // }
 
         Vector3 next_position = future_states[1].position;
-        rb.linearVelocity = (next_position - transform.position) / (GameManager.Instance.fixedTimestep * (stepsPerTick - _stepNum));
+        rb.velocity = (next_position - transform.position) / (GameManager.Instance.fixedTimestep * (stepsPerTick - _stepNum));
         _stepNum++;
 
         DrawPath(10);

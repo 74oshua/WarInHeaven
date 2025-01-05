@@ -13,7 +13,6 @@ public class Scanner : MonoBehaviour
     private Targetable _primary_target = null;
     private int _primary_target_index = -1;
     private OrbitalBody _ob;
-    private List<Vector3> _path = new List<Vector3>();
 
     void Start()
     {
@@ -22,6 +21,13 @@ public class Scanner : MonoBehaviour
         _trigger.isTrigger = true;
         _trigger.radius = scan_range;
         _ob = gameObject.GetComponent<OrbitalBody>();
+        
+        // add an indicator for ourselves if we are targetable
+        Targetable t = GetComponent<Targetable>();
+        if (hud && t)
+        {
+            hud.AddTarget(t);
+        }
     }
 
     void OnTriggerEnter(Collider collider)
@@ -58,19 +64,27 @@ public class Scanner : MonoBehaviour
         }
     }
 
-    public void RemoveTarget(Targetable target)
+    // force parameter guarentees removal
+    public void RemoveTarget(Targetable target, bool force = false)
     {
-        // return if target is already not visible
         if (!_visible_targets.Contains(target))
+        // return if target is already not visible
         {
             return;
         }
 
-        // return if we're still in active or passive range
+        // return if we're still in active or passive range (ignore if force is true)
         float distance = Vector3.Distance(target.transform.position, transform.position);
-        if (distance <= scan_range || distance <= target.passive_range)
+        if (!force && (distance <= scan_range || distance <= target.passive_range))
         {
             return;
+        }
+
+        // if primary target, reset primary target to null
+        if (target == _primary_target)
+        {
+            _primary_target = null;
+            _primary_target_index = -1;
         }
         
         _visible_targets.Remove(target);
@@ -100,11 +114,17 @@ public class Scanner : MonoBehaviour
             return;
         }
         
+        Targetable _prev_target = _primary_target;
         _primary_target = target;
         _primary_target_index = _visible_targets.IndexOf(target);
         if (hud)
         {
-            hud.SelectTarget(target);
+            if (_prev_target)
+            {
+                hud.SetNeutralColor(_prev_target);
+            }
+            
+            hud.SetTargetColor(target);
         }
     }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(Camera))]
 public class CameraController : MonoBehaviour
 {
     // camera target object
@@ -27,9 +28,16 @@ public class CameraController : MonoBehaviour
     private Vector3 _up = Vector3.up;
     private bool _rotating = false;
 
+    private Camera _camera;
+
     public bool in_overview
     {
         get { return _distance_modifier != 1; }
+    }
+
+    public float zoom
+    {
+        get { return _radius * _distance_modifier; }
     }
 
     // private InputAction _toggle_action;
@@ -43,6 +51,8 @@ public class CameraController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        _camera = GetComponent<Camera>();
+
         if (input_actions == null)
         {
             Debug.LogError("CameraController missing input_actions!");
@@ -169,7 +179,7 @@ public class CameraController : MonoBehaviour
 
     private void OnToggleOverview(InputAction.CallbackContext context)
     {
-        if (_distance_modifier != 1)
+        if (in_overview)
         {
             _distance_modifier = 1;
         }
@@ -177,7 +187,16 @@ public class CameraController : MonoBehaviour
         {
             _distance_modifier = overview_distance;
         }
-        GameManager.Instance.SetInOverview(_distance_modifier != 1);
+        GameManager.Instance.SetInOverview(in_overview);
+
+        if (in_overview)
+        {
+            _camera.cullingMask = (1 << LayerMask.NameToLayer("CelestialBody")) | (1 << LayerMask.NameToLayer("Overview")) | (1 << LayerMask.NameToLayer("Indicator"));
+        }
+        else
+        {
+            _camera.cullingMask = ~(1 << LayerMask.NameToLayer("Overview"));
+        }
     }
 
     private void OnZoom(InputAction.CallbackContext context)

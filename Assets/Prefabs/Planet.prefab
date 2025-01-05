@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 7981965358692706524}
   - component: {fileID: 5866489092792198403}
   - component: {fileID: 3153283834280670526}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Planet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -175,4 +175,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   passive_range: 100000000
-  type: 2
+  type: 8
