@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -13,7 +14,8 @@ public class HUDComponent : MonoBehaviour
     // private Targetable primaryTarget = null;
 
     private Indicator _prograde;
-    private List<Indicator> _path = new List<Indicator>();
+    // private List<Indicator> _path = new List<Indicator>();
+    private PathIndicator _path;
 
     public Targetable pov;
 
@@ -28,12 +30,12 @@ public class HUDComponent : MonoBehaviour
 
     public Color near_path_indicator_color = Color.magenta;
     public Color far_path_indicator_color = Color.blue;
-    public float path_indicator_max_width = 12;
-    public float path_indicator_min_width = 2;
-    public float path_indicator_delta_width = 15;
+    public float path_indicator_width = 12;
 
     public OverviewIcon spacecraft_icon;
     public float spacecraft_icon_width = 10;
+    
+    public LineSegment trajectoryLine;
 
     // private bool _refresh = false;
 
@@ -47,6 +49,7 @@ public class HUDComponent : MonoBehaviour
 
         // add prograde indicator
         _prograde = new SquareIndicator(_ui, pov, instrument_color, instrument_indicator_size, indicator_frame_width);
+        _path = new PathIndicator(_ui, trajectoryLine, new(), pov, near_path_indicator_color, far_path_indicator_color, path_indicator_width);
 
         SetProgradeVisible(false);
         // _prograde.SetVisible
@@ -92,6 +95,7 @@ public class HUDComponent : MonoBehaviour
         {
             indicator.UpdatePosition();
         }
+        _path.UpdatePosition();
 
         // _refresh = false;
     }
@@ -221,31 +225,36 @@ public class HUDComponent : MonoBehaviour
 
     public void DrawPath(List<Vector3> positions, Targetable reference, float lerp_factor = 1)
     {
-        // make sure the correct number of indicators are displayed
-        if (positions.Count != _path.Count)
-        {
-            _path.Clear();
-            for (int i = 0; i < positions.Count; i++)
-            {
-                _path.Add(new OctIndicator(_ui, reference, Color.Lerp(near_path_indicator_color, far_path_indicator_color, i / (float)positions.Count), Mathf.Max(path_indicator_max_width - i * path_indicator_delta_width, path_indicator_min_width), indicator_frame_width));
-                _path[i].hide_when_occluded = true;
-                _path[i].occlusion_mask = LayerMask.GetMask("CelestialBody");
-                _path[i].SendToBack();
-            }
-        }
+        _path.UpdatePath(positions, reference, lerp_factor);
+        // _path.SetPosition(pov.transform.position, reference);
+        // _path.UpdatePosition();
 
-        for (int i = 0; i < positions.Count; i++)
-        {
-            _path[i].SetPosition(positions[i], reference, lerp_factor);
-        }
+        // make sure the correct number of indicators are displayed
+        // if (positions.Count != _path.Count)
+        // {
+        //     _path.Clear();
+        //     for (int i = 0; i < positions.Count; i++)
+        //     {
+        //         _path.Add(new OctIndicator(_ui, reference, Color.Lerp(near_path_indicator_color, far_path_indicator_color, i / (float)positions.Count), Mathf.Max(path_indicator_max_width - i * path_indicator_delta_width, path_indicator_min_width), indicator_frame_width));
+        //         _path[i].hide_when_occluded = true;
+        //         _path[i].occlusion_mask = LayerMask.GetMask("CelestialBody");
+        //         _path[i].SendToBack();
+        //     }
+        // }
+
+        // for (int i = 0; i < positions.Count; i++)
+        // {
+        //     _path[i].SetPosition(positions[i], reference, lerp_factor);
+        // }
     }
 
     public void SetPathVisible(bool visible)
     {
-        foreach (Indicator indicator in _path)
-        {
-            indicator.SetEnabled(visible);
-        }
+        // foreach (Indicator indicator in _path)
+        // {
+        //     indicator.SetEnabled(visible);
+        // }
+        _path.visible = visible;
     }
 
     public VectorIndicator AddVectorIndicator(Targetable reference, ArrowIcon arrow, Color color, float width = 1)

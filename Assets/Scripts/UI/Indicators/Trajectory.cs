@@ -13,6 +13,7 @@ public class Trajectory : MonoBehaviour
 
     protected OrbitalBody _target;
     protected List<Vector3> _path = new();
+    protected List<Vector3> _old_path = new();
 
     public float path_spacing = 1;
     public float path_resolution = 20;
@@ -97,12 +98,16 @@ public class Trajectory : MonoBehaviour
         // path.Add(future_state.position - target_future_state.position);
         // timestamp += rolling_offset;
 
+        path.Add(future_state.position - target_future_state.position);
+
         for (int i = 0; i < path_length; i++)
         {
             // calulate future positions for both target and scanner and add the relative position of the scanner to the path
             future_state = OrbitalBody.PredictState(future_state, attractors, 1f / path_resolution, Mathf.RoundToInt(path_resolution * path_spacing), timestamp);
             target_future_state = OrbitalBody.PredictState(target_future_state, other_attractors, 1f / path_resolution, Mathf.RoundToInt(path_resolution * path_spacing), timestamp);
+            
             path.Add(future_state.position - target_future_state.position);
+
             timestamp += Mathf.RoundToInt(path_resolution * path_spacing) / path_resolution;
 
             if (i % calc_speed == 0)

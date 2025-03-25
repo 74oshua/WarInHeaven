@@ -175,4 +175,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   passive_range: 100000000
-  type: 8
+  type: 4

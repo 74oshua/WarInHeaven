@@ -5,8 +5,8 @@ using UnityEngine.UIElements;
 
 public class MeshIndicator : Indicator
 {
-    private OverviewIcon _mesh;
-    private MeshRenderer[] _renderers;
+    protected OverviewIcon _mesh;
+    protected MeshRenderer[] _renderers;
 
     public MeshIndicator(UIDocument ui, OverviewIcon mesh, Targetable reference, Color color, bool overview_only = false, float width = 100, float frame_width = 5) : base(ui, reference, color, width, frame_width)
     {

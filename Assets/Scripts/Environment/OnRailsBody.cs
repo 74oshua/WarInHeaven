@@ -109,8 +109,8 @@ public class OnRailsBody : OrbitalBody
         // return last state if too far in future
         if (future_index >= future_states.Count)
         {
-            Debug.Log("too far in future!");
-            Debug.Log(name + ": " + steps + " steps, fraction: " + fraction + ", index " + future_index + ". Highest index is " + (future_states.Count - 1) + ", stepnum: " + _stepNum + ", timestep: " + _timestep);
+            // Debug.Log("too far in future!");
+            // Debug.Log(name + ": " + steps + " steps, fraction: " + fraction + ", index " + future_index + ". Highest index is " + (future_states.Count - 1) + ", stepnum: " + _stepNum + ", timestep: " + _timestep);
             return future_states[future_states.Count-1];
         }
 

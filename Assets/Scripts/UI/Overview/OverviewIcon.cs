@@ -54,7 +54,7 @@ public class OverviewIcon : MonoBehaviour
         if (icon.activeSelf)
         {
             CameraController cam = GameManager.Instance.main_camera.GetComponent<CameraController>();
-            icon.transform.localScale = new Vector3(1, 1, 1) * (cam.zoom + (cam.transform.position - icon.transform.position).magnitude) * scale;
+            icon.transform.localScale = (cam.zoom + (cam.transform.position - icon.transform.position).magnitude) * scale * new Vector3(1, 1, 1);
         }
     }
 }
