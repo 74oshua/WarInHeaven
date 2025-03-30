@@ -162,12 +162,12 @@ MonoBehaviour:
   indicator_frame_width: 1
   near_path_indicator_color: {r: 1, g: 0, b: 1, a: 1}
   far_path_indicator_color: {r: 0, g: 0, b: 1, a: 1}
-  path_indicator_max_width: 12
-  path_indicator_min_width: 2
-  path_indicator_delta_width: 15
+  path_indicator_width: 12
   spacecraft_icon: {fileID: 7886291047571768168, guid: 32e4599378ddcb3489abacb7725d8f1b,
     type: 3}
   spacecraft_icon_width: 10
+  trajectoryLine: {fileID: 6269612430366961966, guid: fdc27d1a9ae473c42873eb04cad3992c,
+    type: 3}
 --- !u!114 &422510522
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -265,12 +265,12 @@ PrefabInstance:
     - target: {fileID: 4676750734203768881, guid: 93e55c6551a7e294eb13d0357ed4b541,
         type: 3}
       propertyPath: accuracy
-      value: 0.99
+      value: 0.999
       objectReference: {fileID: 0}
     - target: {fileID: 4676750734203768881, guid: 93e55c6551a7e294eb13d0357ed4b541,
         type: 3}
       propertyPath: exit_speed
-      value: 1000
+      value: 2000
       objectReference: {fileID: 0}
     - target: {fileID: 4915873665688689085, guid: 93e55c6551a7e294eb13d0357ed4b541,
         type: 3}
@@ -286,11 +286,6 @@ PrefabInstance:
         type: 3}
       propertyPath: x_min_angle
       value: -360
-      objectReference: {fileID: 0}
-    - target: {fileID: 4915873665688689085, guid: 93e55c6551a7e294eb13d0357ed4b541,
-        type: 3}
-      propertyPath: y_max_angle
-      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4915873665688689085, guid: 93e55c6551a7e294eb13d0357ed4b541,
         type: 3}
@@ -310,12 +305,12 @@ PrefabInstance:
     - target: {fileID: 5916146519770808425, guid: 93e55c6551a7e294eb13d0357ed4b541,
         type: 3}
       propertyPath: accuracy
-      value: 0.99
+      value: 0.999
       objectReference: {fileID: 0}
     - target: {fileID: 5916146519770808425, guid: 93e55c6551a7e294eb13d0357ed4b541,
         type: 3}
       propertyPath: exit_speed
-      value: 1000
+      value: 2000
       objectReference: {fileID: 0}
     - target: {fileID: 6167573699138342302, guid: 93e55c6551a7e294eb13d0357ed4b541,
         type: 3}
@@ -336,11 +331,6 @@ PrefabInstance:
         type: 3}
       propertyPath: x_min_angle
       value: -360
-      objectReference: {fileID: 0}
-    - target: {fileID: 6252622341122771429, guid: 93e55c6551a7e294eb13d0357ed4b541,
-        type: 3}
-      propertyPath: y_max_angle
-      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6252622341122771429, guid: 93e55c6551a7e294eb13d0357ed4b541,
         type: 3}

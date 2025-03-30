@@ -580,6 +580,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Missile
       objectReference: {fileID: 0}
+    - target: {fileID: 1659907030925737168, guid: 5691e28c1be30df42b175b54a09f64e1,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1888701575615111794, guid: 5691e28c1be30df42b175b54a09f64e1,
         type: 3}
       propertyPath: audio_volume

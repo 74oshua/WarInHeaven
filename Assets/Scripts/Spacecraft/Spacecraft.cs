@@ -93,11 +93,17 @@ public class Spacecraft : MonoBehaviour
 
     public void FireWeaponByGroup(int fire_group)
     {
+        bool fired = false;
         foreach (Weapon weapon in weapons)
         {
             if (weapon.fire_group == fire_group)
             {
-                weapon.Fire();
+                fired = weapon.Fire();
+
+                if (weapon.single_shot_per_group && fired)
+                {
+                    break;
+                }
             }
         }
     }

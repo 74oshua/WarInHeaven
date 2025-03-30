@@ -13,6 +13,7 @@ public class Scanner : MonoBehaviour
     private Targetable _primary_target = null;
     private int _primary_target_index = -1;
     private OrbitalBody _ob;
+    private Targetable _search_target;
 
     void Start()
     {
@@ -32,6 +33,11 @@ public class Scanner : MonoBehaviour
 
     void OnTriggerEnter(Collider collider)
     {
+        if (collider.isTrigger || Vector3.Distance(collider.transform.position, transform.position) > scan_range)
+        {
+            return;
+        }
+
         Targetable target = collider.gameObject.GetComponent<Targetable>();
         if (target)
         {
@@ -41,6 +47,7 @@ public class Scanner : MonoBehaviour
 
     void OnTriggerExit(Collider collider)
     {
+        // Debug.Log(collider.name);
         Targetable target = collider.GetComponent<Targetable>();
         if (target)
         {
@@ -50,6 +57,12 @@ public class Scanner : MonoBehaviour
 
     public void AddTarget(Targetable target)
     {
+        float distance = Vector3.Distance(target.transform.position, transform.position);
+        if (distance > scan_range && distance > target.passive_range)
+        {
+            return;
+        }
+
         // return if target is already visible
         if (_visible_targets.Contains(target))
         {
@@ -61,6 +74,11 @@ public class Scanner : MonoBehaviour
         if (hud)
         {
             hud.AddTarget(target);
+        }
+
+        if (target == _search_target)
+        {
+            SelectTarget(target);
         }
     }
 
@@ -75,7 +93,7 @@ public class Scanner : MonoBehaviour
 
         // return if we're still in active or passive range (ignore if force is true)
         float distance = Vector3.Distance(target.transform.position, transform.position);
-        if (!force && (distance <= scan_range || distance <= target.passive_range))
+        if (!force && (distance < scan_range || distance <= target.passive_range))
         {
             return;
         }
@@ -101,16 +119,29 @@ public class Scanner : MonoBehaviour
         }
     }
 
+    public void ClearTargets()
+    {
+        for (int i = _visible_targets.Count-1; i >= 0; i--)
+        {
+            RemoveTarget(_visible_targets[i]);
+        }
+    }
+
     public void CycleTarget()
     {
         _primary_target_index = (_primary_target_index + 1) % _visible_targets.Count;
         SelectTarget(_visible_targets[_primary_target_index]);
     }
 
-    private void SelectTarget(Targetable target)
+    public void SelectTarget(Targetable target)
     {
         if (!_visible_targets.Contains(target))
         {
+            Debug.Log(name);
+            foreach (Targetable t in _visible_targets)
+            {
+                Debug.Log(t.name);
+            }
             return;
         }
         
@@ -128,7 +159,7 @@ public class Scanner : MonoBehaviour
         }
     }
 
-    public void SelectForwardTarget()
+    public void SelectCameraForwardTarget()
     {
         Vector3 facing = GameManager.Instance.main_camera.transform.forward;
         for (int i = _primary_target_index >= 0 ? _primary_target_index : 0; i < _visible_targets.Count + _primary_target_index + 1; i++)
@@ -158,5 +189,16 @@ public class Scanner : MonoBehaviour
     public Targetable GetPrimaryTarget()
     {
         return _primary_target;
+    }
+    
+    public void SetSearchTarget(Targetable search_target)
+    {
+        _search_target = search_target;
+    }
+
+    public void SetScanRange(float range)
+    {
+        scan_range = range;
+        _trigger.radius = scan_range;
     }
 }

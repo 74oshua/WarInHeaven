@@ -49,8 +49,8 @@ public class Gimbal : MonoBehaviour
 
         for (int i = 0; i < tracking_smooth_factor; i++)
         {
-            float x_difference = Vector3.SignedAngle(emitter.transform.forward, _target_point, x_axis.transform.up);
-            float y_difference = Vector3.SignedAngle(emitter.transform.forward, _target_point, y_axis.transform.right);
+            float x_difference = Vector3.SignedAngle(emitter.transform.up, _target_point, x_axis.transform.up);
+            float y_difference = Vector3.SignedAngle(emitter.transform.up, _target_point, y_axis.transform.right);
 
             // float x_factor = Mathf.Abs(x_difference) / tracking_smooth_factor * tracking_speed;
             // float y_factor = Mathf.Abs(y_difference) / tracking_smooth_factor * tracking_speed;
@@ -70,7 +70,7 @@ public class Gimbal : MonoBehaviour
 
     public bool IsAligned(float accuracy)
     {
-        return Vector3.Dot(emitter.forward, _target_point.normalized) >= accuracy;
+        return Vector3.Dot(emitter.up, _target_point.normalized) >= accuracy;
     }
 
     public void SetTargetPoint(Vector3 point)

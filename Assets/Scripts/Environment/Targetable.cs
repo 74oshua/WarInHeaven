@@ -8,10 +8,11 @@ public enum TargetType
     Satellite =     1 << 1,
     Planet =        1 << 2,
     Projectile =    1 << 3,
-    Spacecraft =    1 << 4
+    Spacecraft =    1 << 4,
+    Any =           0xFFFF
 }
 
-[RequireComponent(typeof(OrbitalBody))]
+// [RequireComponent(typeof(OrbitalBody))]
 public class Targetable : MonoBehaviour
 {
     // how close a scanner has to be to see this object passively, regardless of the scanner's ranger

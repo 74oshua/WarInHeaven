@@ -115,7 +115,7 @@ public class PlayerSpacecraftController : SpacecraftController
 
         if (scanner)
         {
-            scanner.SelectForwardTarget();
+            scanner.SelectCameraForwardTarget();
         }
     }
 

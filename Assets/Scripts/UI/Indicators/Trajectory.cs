@@ -130,7 +130,14 @@ public class Trajectory : MonoBehaviour
         // }
         // else
         // {
+        if (_target)
+        {
             hud.DrawPath(_path, _target.GetComponent<Targetable>(), lerp_speed);
+        }
+        else
+        {
+            hud.SetPathValid(false);
+        }
         // }
 
         _calculating_path = false;
@@ -140,6 +147,6 @@ public class Trajectory : MonoBehaviour
     public void SetDrawPath(bool should_draw)
     {
         _drawing_path = should_draw;
-        hud.SetPathVisible(should_draw);
+        hud.SetPathValid(should_draw);
     }
 }

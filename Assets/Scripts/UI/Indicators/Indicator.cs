@@ -14,6 +14,13 @@ public abstract class Indicator : VisualElement
     protected Vector3 _world_position = Vector3.zero;
     protected Targetable _reference;
     protected bool _occluded;
+    protected bool _valid = true;
+    public bool valid
+    {
+        get {
+            return _valid;
+        }
+    }
 
     private Vector3 _reference_old_pos = Vector3.zero;
     // private Color _color = Color.white;
@@ -89,9 +96,10 @@ public abstract class Indicator : VisualElement
         // remove from UI if reference object has been destroyed
         if (!_reference)
         {
-            parent.Remove(this);
+            _valid = false;
             return;
         }
+        _valid = true;
 
         _world_position += _reference.transform.position - _reference_old_pos;
         _reference_old_pos = _reference.transform.position;
@@ -127,14 +135,26 @@ public abstract class Indicator : VisualElement
             return;
         }
 
-        Vector3 new_position = RuntimePanelUtils.CameraTransformWorldToPanel(panel, _world_position, GameManager.Instance.main_camera);
-        visible = true;
-        new_position.z = transform.position.z;
-        transform.position = new_position;
+        if (panel != null)
+        {
+            Vector3 new_position = RuntimePanelUtils.CameraTransformWorldToPanel(panel, _world_position, GameManager.Instance.main_camera);
+            visible = true;
+            new_position.z = transform.position.z;
+            transform.position = new_position;
+        }
+        else
+        {
+            Debug.Log("x");
+        }
 
         VisualUpdate();
     }
 
     public virtual void VisualUpdate()
     {}
+
+    public void SetValid(bool valid)
+    {
+        _valid = valid;
+    }
 }

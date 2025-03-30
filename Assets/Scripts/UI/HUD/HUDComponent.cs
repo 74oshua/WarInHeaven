@@ -93,9 +93,11 @@ public class HUDComponent : MonoBehaviour
         }
         foreach (Indicator indicator in _ui.rootVisualElement.Children())
         {
-            indicator.UpdatePosition();
+            if (indicator.valid)
+            {
+                indicator.UpdatePosition();
+            }
         }
-        _path.UpdatePosition();
 
         // _refresh = false;
     }
@@ -226,6 +228,7 @@ public class HUDComponent : MonoBehaviour
     public void DrawPath(List<Vector3> positions, Targetable reference, float lerp_factor = 1)
     {
         _path.UpdatePath(positions, reference, lerp_factor);
+        _path.visible = true;
         // _path.SetPosition(pov.transform.position, reference);
         // _path.UpdatePosition();
 
@@ -248,13 +251,13 @@ public class HUDComponent : MonoBehaviour
         // }
     }
 
-    public void SetPathVisible(bool visible)
+    public void SetPathValid(bool valid)
     {
         // foreach (Indicator indicator in _path)
         // {
         //     indicator.SetEnabled(visible);
         // }
-        _path.visible = visible;
+        _path.SetValid(valid);
     }
 
     public VectorIndicator AddVectorIndicator(Targetable reference, ArrowIcon arrow, Color color, float width = 1)

@@ -5,6 +5,7 @@ using UnityEngine;
 public abstract class Weapon : SpacecraftPart
 {
     public Transform emitter;
+    public bool single_shot_per_group = false;
 
     protected Targetable _target;
     public int fire_group;

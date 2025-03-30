@@ -186,7 +186,7 @@ MonoBehaviour:
   spool_time: 0.5
   audio_thruster_active: {fileID: 8300000, guid: 20b2946f618515142b57cfe947b78012,
     type: 3}
-  audio_volume: 100
+  audio_volume: 0.1
 --- !u!114 &6243188790736029424
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -221,11 +221,11 @@ AudioSource:
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
-  DopplerLevel: 1
+  DopplerLevel: 0
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 10000
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 1
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0

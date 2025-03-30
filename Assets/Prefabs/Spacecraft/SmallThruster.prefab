@@ -100,10 +100,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   max_thrust: 100
-  spool_time: 0
+  spool_time: 0.05
   audio_thruster_active: {fileID: 8300000, guid: a9f0182898d7b204bb2e5538f61f7382,
     type: 3}
-  audio_volume: 0.1
+  audio_volume: 0.001
 --- !u!114 &529416178459388418
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -140,9 +140,9 @@ AudioSource:
   Priority: 128
   DopplerLevel: 0
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 10000
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 1
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0

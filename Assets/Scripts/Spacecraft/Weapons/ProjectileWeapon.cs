@@ -145,8 +145,13 @@ public class ProjectileWeapon : Weapon
 
         projectile.gameObject.SetActive(false);
         OrbitalBody p = Instantiate(projectile, emitter.transform.position, emitter.transform.rotation);
-        p.initial_velocity = _rb.velocity + emitter.forward * exit_speed;
+        p.initial_velocity = _rb.velocity + emitter.up * exit_speed;
+        Scanner scanner = p.GetComponent<Scanner>();
         p.gameObject.SetActive(true);
+        if (scanner)
+        {
+            scanner.SetSearchTarget(_target);
+        }
         return true;
     }
 }
