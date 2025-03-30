@@ -15,3 +15,7 @@ Controls:
 `T` to set primary target to whatever the camera is facing
 
 `Tab` to cycle between all visible targets
+
+Weapons are bound to "fire groups." To target something with firegroup 1, press `F1`. To fire on the selected target, press `1`.
+Other fire groups work similarly.
+In the default scene, coilguns are bound to group 1 and missiles are bound to group 2.
