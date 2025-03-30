@@ -1214,8 +1214,8 @@ MonoBehaviour:
   path_resolution: 1
   path_length: 50
   path_update_interval: 0.01
-  calc_speed: 1000
-  lerp_speed: 1
+  calc_speed: 100
+  lerp_speed: 0.8
 --- !u!114 &944114090
 MonoBehaviour:
   m_ObjectHideFlags: 0
