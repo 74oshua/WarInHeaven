@@ -53,12 +53,12 @@ public class MissileController : SpacecraftController
             Vector3 target_vel = target.ob.state.velocity + (target.transform.position - transform.position).normalized * current_target_speed - _rb.velocity;
             Vector3 lateral_vel = Vector3.ProjectOnPlane(_rb.velocity - target.ob.state.velocity, target.transform.position - transform.position);
             float target_throttle = target_vel.magnitude;
-            target_vel -= lateral_vel * Mathf.Log10(target_throttle) / 2 * lateral_bias;
+            target_vel -= lateral_vel * Mathf.Log10(target_throttle) / dampening * lateral_bias;
             RotateTo(target_vel);
 
             if (Vector3.Dot(transform.up, target_vel.normalized) > 0.999f && target_throttle > 0.1f)
             {
-                _sc.SetMainThrottle(Mathf.Log10(target_throttle) / 2);
+                _sc.SetMainThrottle(Mathf.Log10(target_throttle) / dampening);
             }
             else
             {

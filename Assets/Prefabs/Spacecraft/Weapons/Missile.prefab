@@ -203,9 +203,9 @@ MonoBehaviour:
   inertia: 0
   target_speed: 10000
   collision_speed: 50
-  turnaround_time: 0.75
+  turnaround_time: 2
   dampening: 2
-  lateral_bias: 3
+  lateral_bias: 5
 --- !u!136 &4495288497056176330
 CapsuleCollider:
   m_ObjectHideFlags: 0

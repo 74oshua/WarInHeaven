@@ -1215,7 +1215,7 @@ MonoBehaviour:
   path_length: 50
   path_update_interval: 0.01
   calc_speed: 100
-  lerp_speed: 0.8
+  lerp_speed: 1
 --- !u!114 &944114090
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1234,7 +1234,7 @@ MonoBehaviour:
   input_actions: {fileID: -944628639613478452, guid: 4e7b152cea4f4c649be2e702e713daf3,
     type: 3}
   dampening: 1
-  roll_factor: 10
+  roll_factor: 50
 --- !u!114 &944114091 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3650463554969200562, guid: 93e55c6551a7e294eb13d0357ed4b541,
