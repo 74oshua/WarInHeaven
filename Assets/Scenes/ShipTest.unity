@@ -657,7 +657,7 @@ MonoBehaviour:
   max_radius: 200
   overview_distance: 20
   rotation_sensitivity: 0.1
-  zoom_sensitivity: 1
+  zoom_sensitivity: 0.1
 --- !u!1001 &394394512
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1214,7 +1214,7 @@ MonoBehaviour:
   path_resolution: 1
   path_length: 50
   path_update_interval: 0.01
-  calc_speed: 100
+  calc_speed: 10000
   lerp_speed: 1
 --- !u!114 &944114090
 MonoBehaviour:
@@ -1616,7 +1616,7 @@ PrefabInstance:
     - target: {fileID: 4444732578167668854, guid: 448fc9bb740b57b4e843756b1db9cbf2,
         type: 3}
       propertyPath: stepsPerTick
-      value: 5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4444732578167668854, guid: 448fc9bb740b57b4e843756b1db9cbf2,
         type: 3}
