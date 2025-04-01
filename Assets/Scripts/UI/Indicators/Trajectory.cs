@@ -45,7 +45,7 @@ public class Trajectory : MonoBehaviour
 
         if (_drawing_path && !_calculating_path && Time.time - _path_finished_time > path_update_interval && hud && _scanner.GetPrimaryTarget())
         {
-            _target = _scanner.GetPrimaryTarget().ob;
+            _target = _scanner.GetReferenceTarget().ob;
 
             StartCoroutine(CalcPath());
             _calculating_path = true;

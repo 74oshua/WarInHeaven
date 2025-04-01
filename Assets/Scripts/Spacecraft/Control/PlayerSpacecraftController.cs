@@ -33,6 +33,9 @@ public class PlayerSpacecraftController : SpacecraftController
         input_actions.FindActionMap("flight").FindAction("fire_weapon_group_1").performed += FireWeaponGroup1;
         input_actions.FindActionMap("flight").FindAction("fire_weapon_group_2").performed += FireWeaponGroup2;
 
+        input_actions.FindActionMap("flight").FindAction("set_reference").performed += SetReference;
+        input_actions.FindActionMap("flight").FindAction("clear_reference").performed += ClearReference;
+
         // _rotate_action = input_actions.FindActionMap("flight").FindAction("rotate");
     }
 
@@ -149,6 +152,26 @@ public class PlayerSpacecraftController : SpacecraftController
     void FireWeaponGroup2(InputAction.CallbackContext context)
     {
         _sc.FireWeaponByGroup(2);
+    }
+
+    void SetReference(InputAction.CallbackContext context)
+    {
+        Scanner scanner = GetComponent<Scanner>();
+
+        if (scanner)
+        {
+            scanner.SetTargetAsReference();
+        }
+    }
+
+    void ClearReference(InputAction.CallbackContext context)
+    {
+        Scanner scanner = GetComponent<Scanner>();
+
+        if (scanner)
+        {
+            scanner.ClearReference();
+        }
     }
 
     // private void OnRotate(InputAction.CallbackContext context)

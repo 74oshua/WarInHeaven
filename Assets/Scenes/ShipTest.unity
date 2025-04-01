@@ -1214,7 +1214,7 @@ MonoBehaviour:
   path_resolution: 1
   path_length: 50
   path_update_interval: 0.01
-  calc_speed: 10000
+  calc_speed: 100
   lerp_speed: 1
 --- !u!114 &944114090
 MonoBehaviour:
@@ -1557,6 +1557,7 @@ MonoBehaviour:
   pov: {fileID: 944114091}
   neutral_color: {r: 1, g: 1, b: 1, a: 1}
   targeted_color: {r: 1, g: 0, b: 0, a: 1}
+  reference_color: {r: 0, g: 1, b: 1, a: 1}
   instrument_color: {r: 0.0023678474, g: 0.6037736, b: 0, a: 1}
   satellite_indicator_size: 8
   planet_indicator_size: 15

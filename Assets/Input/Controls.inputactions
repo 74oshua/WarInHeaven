@@ -9,7 +9,7 @@
                     "name": "burn",
                     "type": "Button",
                     "id": "7df591a7-8d21-4950-992d-e0693a3d60d7",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -45,7 +45,7 @@
                     "name": "cycle_target",
                     "type": "Button",
                     "id": "671769d7-8185-4bde-a5a2-6c792bb692ca",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -90,7 +90,25 @@
                     "name": "target_weapon_group_2",
                     "type": "Button",
                     "id": "8c54be19-6782-401a-be95-0057061396e8",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "set_reference",
+                    "type": "Button",
+                    "id": "9a6fc732-c180-4091-8042-5ee8b33ce25e",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "clear_reference",
+                    "type": "Button",
+                    "id": "53efea87-ad50-4334-853a-87e02fbeec58",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -312,7 +330,7 @@
                     "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": ";Keyboard",
                     "action": "roll",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -323,7 +341,7 @@
                     "path": "<Keyboard>/q",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": ";Keyboard",
                     "action": "roll",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -334,7 +352,7 @@
                     "path": "<Keyboard>/tab",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": ";Keyboard",
                     "action": "cycle_target",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -345,7 +363,7 @@
                     "path": "<Keyboard>/t",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": ";Keyboard",
                     "action": "forward_target",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -356,7 +374,7 @@
                     "path": "<Keyboard>/f1",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": ";Keyboard",
                     "action": "target_weapon_group_1",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -367,7 +385,7 @@
                     "path": "<Keyboard>/f2",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": ";Keyboard",
                     "action": "target_weapon_group_2",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -378,7 +396,7 @@
                     "path": "<Keyboard>/1",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": ";Keyboard",
                     "action": "fire_weapon_group_1",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -389,10 +407,54 @@
                     "path": "<Keyboard>/2",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": ";Keyboard",
                     "action": "fire_weapon_group_2",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3a6c9253-24ac-4a65-a7c2-2ed65f95b0dd",
+                    "path": "<Keyboard>/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard",
+                    "action": "set_reference",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "One Modifier",
+                    "id": "6a9519f3-858d-48a0-94fb-76c5745e8484",
+                    "path": "OneModifier(overrideModifiersNeedToBePressedFirst=true)",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "clear_reference",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier",
+                    "id": "30923f2f-5a5b-4391-b71b-1fedb9e6f241",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "clear_reference",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "binding",
+                    "id": "f8e61023-bffa-4ac0-a0f4-0999892a6691",
+                    "path": "<Keyboard>/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "clear_reference",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         },

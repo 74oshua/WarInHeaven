@@ -11,6 +11,7 @@ public class Scanner : MonoBehaviour
     private List<Targetable> _visible_targets = new List<Targetable>();
     private SphereCollider _trigger;
     private Targetable _primary_target = null;
+    private Targetable _reference_target = null;
     private int _primary_target_index = -1;
     private OrbitalBody _ob;
     private Targetable _search_target;
@@ -104,6 +105,11 @@ public class Scanner : MonoBehaviour
             _primary_target = null;
             _primary_target_index = -1;
         }
+
+        if (target == _reference_target)
+        {
+            _reference_target = null;
+        }
         
         _visible_targets.Remove(target);
 
@@ -148,14 +154,54 @@ public class Scanner : MonoBehaviour
         Targetable _prev_target = _primary_target;
         _primary_target = target;
         _primary_target_index = _visible_targets.IndexOf(target);
-        if (hud)
-        {
-            if (_prev_target)
-            {
-                hud.SetNeutralColor(_prev_target);
-            }
+        UpdateColor(_primary_target);
+        UpdateColor(_prev_target);
+        // if (hud)
+        // {
+        //     if (_prev_target)
+        //     {
+        //         hud.SetNeutralColor(_prev_target);
+        //     }
             
+        //     hud.SetTargetColor(target);
+        // }
+    }
+
+    public void SetTargetAsReference()
+    {
+        Targetable _prev_reference = _reference_target;
+        _reference_target = _primary_target;
+        
+        UpdateColor(_reference_target);
+        UpdateColor(_prev_reference);
+    }
+
+    public void ClearReference()
+    {
+        Targetable _prev_reference = _reference_target;
+        _reference_target = null;
+        
+        UpdateColor(_prev_reference);
+    }
+
+    public void UpdateColor(Targetable target)
+    {
+        if (!hud || !target)
+        {
+            return;
+        }
+
+        if (_primary_target == target)
+        {
             hud.SetTargetColor(target);
+        }
+        else if (_reference_target == target)
+        {
+            hud.SetReferenceColor(target);
+        }
+        else
+        {
+            hud.SetNeutralColor(target);
         }
     }
 
@@ -165,7 +211,7 @@ public class Scanner : MonoBehaviour
         for (int i = _primary_target_index >= 0 ? _primary_target_index : 0; i < _visible_targets.Count + _primary_target_index + 1; i++)
         {
             int index = i % _visible_targets.Count;
-            if (_primary_target != _visible_targets[index] && Vector3.Dot((_visible_targets[index].transform.position - transform.position).normalized, facing.normalized) > 0.9f)
+            if (_primary_target != _visible_targets[index] && Vector3.Dot((_visible_targets[index].transform.position - transform.position).normalized, facing.normalized) > 0.95f)
             {
                 SelectTarget(_visible_targets[index]);
                 break;
@@ -189,6 +235,17 @@ public class Scanner : MonoBehaviour
     public Targetable GetPrimaryTarget()
     {
         return _primary_target;
+    }
+
+    // use primary target as reference by default
+    public Targetable GetReferenceTarget()
+    {
+        if (_reference_target != null)
+        {
+            return _reference_target;
+        }
+
+        return GetPrimaryTarget();
     }
     
     public void SetSearchTarget(Targetable search_target)

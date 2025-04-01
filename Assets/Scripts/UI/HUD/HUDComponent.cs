@@ -18,9 +18,11 @@ public class HUDComponent : MonoBehaviour
     private PathIndicator _path;
 
     public Targetable pov;
+    private Targetable _reference;
 
     public Color neutral_color = Color.white;
     public Color targeted_color = Color.red;
+    public Color reference_color = Color.cyan;
     public Color instrument_color = Color.green;
 
     public float satellite_indicator_size = 8;
@@ -148,10 +150,12 @@ public class HUDComponent : MonoBehaviour
             }
             else if (target != pov)
             {
-                indicator = new SquareIndicator(_ui, target, neutral_color, satellite_indicator_size, indicator_frame_width);
-                indicator.hide_when_occluded = false;
-                indicator.occlusion_mask = 0;
-                _target_indicators.Add(indicator);
+                    indicator = new SquareIndicator(_ui, target, neutral_color, satellite_indicator_size, indicator_frame_width)
+                    {
+                        hide_when_occluded = false,
+                        occlusion_mask = 0
+                    };
+                    _target_indicators.Add(indicator);
             }
             break;
             
@@ -225,6 +229,14 @@ public class HUDComponent : MonoBehaviour
         }
     }
 
+    public void SetReferenceColor(Targetable target)
+    {
+        foreach (Indicator indicator in GetTargetIndicators(target))
+        {
+            indicator.ChangeColor(reference_color);
+        }
+    }
+
     public void DrawPath(List<Vector3> positions, Targetable reference, float lerp_factor = 1)
     {
         _path.UpdatePath(positions, reference, lerp_factor);
@@ -271,4 +283,6 @@ public class HUDComponent : MonoBehaviour
         indicator.SetEnabled(false);
         indicator.RemoveFromHierarchy();
     }
+
+
 }
