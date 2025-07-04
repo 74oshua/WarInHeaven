@@ -98,7 +98,7 @@ public class Trajectory : MonoBehaviour
         // path.Add(future_state.position - target_future_state.position);
         // timestamp += rolling_offset;
 
-        path.Add(future_state.position - target_future_state.position);
+        path.Add(future_state.position - target_future_state.position + target_state.position);
 
         for (int i = 0; i < path_length; i++)
         {
@@ -106,7 +106,7 @@ public class Trajectory : MonoBehaviour
             future_state = OrbitalBody.PredictState(future_state, attractors, 1f / path_resolution, Mathf.RoundToInt(path_resolution * path_spacing), timestamp);
             target_future_state = OrbitalBody.PredictState(target_future_state, other_attractors, 1f / path_resolution, Mathf.RoundToInt(path_resolution * path_spacing), timestamp);
             
-            path.Add(future_state.position - target_future_state.position);
+            path.Add(future_state.position - target_future_state.position + target_state.position);
 
             timestamp += Mathf.RoundToInt(path_resolution * path_spacing) / path_resolution;
 
